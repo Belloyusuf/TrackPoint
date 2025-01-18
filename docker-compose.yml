@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=trackpoint_db
+      - POSTGRES_USER=trackpoint_user
+      - POSTGRES_PASSWORD=trackpoint_password
+
+  web:
+    build: .
+    command: gunicorn trackpoint.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/code
+      - static_volume:/code/static  # Ensure static files are shared
+      - media_volume:/code/media    # Ensure media files are shared
+    expose:
+      - "8000"
+    depends_on:
+      - db
+    # env_file:
+    #   - smsettings/.env
+    # environment:
+    #   - SMSKIT_ENV=production
+
+  memcached:
+    image: memcached:alpine
+
+  nginx:
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/usr/share/nginx/html/static
+      - media_volume:/usr/share/nginx/html/media
+
+volumes:
+  db_data:
+  static_volume:
+  media_volume:
