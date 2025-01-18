@@ -3,6 +3,10 @@ from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
+
+
+
+
 # Abstract model for timestamp fields
 class TimeStampedModel(models.Model):
     """
@@ -49,7 +53,6 @@ class Shelf(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 # Product Model
