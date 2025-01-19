@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'shop',
+    'orders',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -73,12 +76,25 @@ WSGI_APPLICATION = 'trackpoint.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'trackpoint_db',
+#         'USER': 'trackpoint_user',
+#         'PASSWORD': 'trackpoin_password',
+#         'HOST': 'db',  # Make sure this matches the service name in docker-compose
+#         'PORT': '5432',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation

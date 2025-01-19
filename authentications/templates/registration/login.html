@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Beesoft">
+    <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+    <title>Login - Student Management System</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="{% static 'img/sms_kit_logo.png' %}" />
+    <link href="{% static 'css/app.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- captcha -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        body {
+            /* Background gradient and images */
+            background-image: linear-gradient(
+                rgba(255, 255, 0, 0.5),
+                rgba(0, 0, 255, 0.5)
+            ),
+            url("{% static 'img/beeskul-logo.png' %}"), /* First image */
+            url("{% static 'img/beeskul-logo.png' %}"); /* Second image */
+    
+            /* Background positioning */
+            background-position:
+                left top, /* Gradient background */
+                left 1em top 5%, /* First image */
+                right 10em bottom -5em; /* Second image */
+    
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: auto, /* Gradient background size */
+                26em auto, /* First image size (adjusted for larger size) */
+                13em auto; /* Second image size */
+    
+            /* Ensure the first image is transparent */
+            opacity: 0.9;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff; /* White background for the card */
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+        }
+
+        .login-form h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-form label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .login-form .form-control {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 12px;
+            font-size: 14px;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .login-form .form-control:focus {
+            border-color: #007bff; /* Focus color */
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus shadow */
+        }
+
+        .login-form .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.15s ease-in-out;
+        }
+
+        .login-form .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+        .login-form .form-check-label {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .login-form .text-muted {
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="d-flex vh-100">
+        <div class="container">
+            <div class="row justify-content-center align-items-center vh-100">
+                <div class="col-lg-6">
+                    <div class="login-form">
+                        <div class="text-center mt-4">
+                            <img class="mb-0 larger-image" src="{% static 'img/beeskul-logo.png' %}" width="100" height="100" srcset="">
+                        </div>
+                        <p class="text-center text-muted">Sign in to your account to continue</p>
+                        <form id="login" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username or Email</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                                    <button class="btn btn-outline-secondary btn-sm" type="button" id="togglePassword">
+                                        <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <input type="hidden" name="next" value="{{ next }}" />
+
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me" checked>
+                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                            </div>
+                            <div class="mb-3 d-grid">
+                                <button type="submit" class="btn btn-primary" id="submit-btn">Sign in</button>
+                            </div>
+                            <div class="text-center text-muted">
+                                <p><a href="{% url 'authentication_app:password_reset' %}">Forgot password?</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <!-- Your JavaScript for handling form submission and toggling password visibility -->
+    <script>
+            $(document).ready(function () {
+            // Toggle password visibility
+            $('#togglePassword').click(function () {
+                var passwordField = $('#password');
+                var fieldType = passwordField.attr('type') === 'password' ? 'text' : 'password';
+                passwordField.attr('type', fieldType);
+                $('#togglePasswordIcon').toggleClass('fa-eye fa-eye-slash');
+            });
+
+            $('#login').submit(function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+               // Disable the submit button to prevent multiple clicks
+                $('#submit-btn').attr('disabled', true).html('<i class="fas fa-spinner fa-pulse"></i>');
+
+
+                // Collect form data
+                var formData = {
+                    'username': $('#username').val(),
+                    'password': $('#password').val(),
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                    'next': $('input[name=next]').val() // Add the next parameter to form data
+                };
+
+                // Send AJAX request
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "authentication_app:login" %}',
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            // Display success message using SweetAlert
+                            Swal.fire({
+                                title: "Success",
+                                text: response.message,
+                                icon: "success",
+                                showConfirmButton: false, // Remove the "OK" button
+                                timer: 1000 // Auto-close the alert after 1 second
+                            }).then((value) => {
+                                // Redirect to the next URL or the dashboard
+                                if (response.next_url) {
+                                    window.location.href = response.next_url;
+                                } else {
+                                    window.location.href = "{% url 'school_setup:dashboard' %}";
+                                }
+                            });
+                        } else {
+                            // Re-enable the submit button if there's an error
+                            $('#submit-btn').attr('disabled', false).text('Sign in');
+
+                            // Show error message using SweetAlert
+                            Swal.fire({
+                                title: "Error",
+                                text: response.message,
+                                icon: "error"
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Log the error to console
+                        console.log(xhr.responseText);
+
+                        // Re-enable the submit button if the request fails
+                        $('#submit-btn').attr('disabled', false).text('Sign in');
+
+                        // Show error message using SweetAlert
+                        Swal.fire({
+                            title: "Error",
+                            text: "An error occurred. Or Incorrect login details",
+                            icon: "error"
+                        });
+                    }
+                });
+            });
+        });
+                
+</script>
+
+
+
+</body>
+
+</html>

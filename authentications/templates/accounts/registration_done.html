@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}dashboard{% endblock title %}
+
+{% block content %}
+{% include 'include/sitebar.html'%}
+<div class="main">
+    <div class="top-bar">
+        <div class="search">
+            <input type="text" name="search" placeholder="Search here">
+            <label for="search"> <i id="i" class="fa fa-search"></i></label>
+        </div>
+        <a href="{% url 'authentication_app:logout'%}">
+            <i class="fa fa-sign-out-alt" style="margin-left:10px;" title="sign out" id="signout"></i>
+        </a>
+        <div class="user">
+            <img src="{% static 'image/logo.png'%}" alt="">
+        </div>
+    </div>
+</div>
+{% endblock content %}

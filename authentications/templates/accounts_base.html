@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+
+    {% block stylesheet %}
+
+    {% comment %} {% tailwind_css %} {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="{% static 'img/sms_kit.png' %}"/>
+    <link href="{% static 'css/app.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <!-- Data tables code  -->
+    <link href="{% static 'css/datatables.css' %}" rel="stylesheet">
+    <!-- SweetAlert -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <link rel="stylesheet" href="{% static 'css/sweetalert2.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
+    {% endblock stylesheet %}
+    
+    <!-- <style>
+        body {
+            background-image: linear-gradient(
+                rgba(255, 255, 0, 0.5),
+                rgba(0, 0, 255, 0.5)
+            ),
+            url("{% static 'img/sms_logo.png' %}"),
+            url("{% static 'img/sms_logo.png' %}");
+
+            /* background-position: bottom  0px right; */
+            background-position:
+            0px 0px,
+            right 10em bottom -5em;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        } 
+    </style> -->
+
+    <style>
+        .bgcolor
+            {
+                background-image: linear-gradient(
+                rgba(255, 255, 0, 0.5),
+                rgba(0, 0, 255, 0.5)
+            ), 
+            }
+        body {
+            /* Background gradient and images */
+            background-image: linear-gradient(
+                rgba(255, 255, 0, 0.5),
+                rgba(0, 0, 255, 0.5)
+            ),
+            url("{% static 'img/beeskul-logo.png' %}"), /* First image */
+            url("{% static 'img/beeskul-logo.png' %}"); /* Second image */
+    
+            /* Background positioning */
+            background-position:
+                left top, /* Gradient background */
+                left 1em top 5%, /* First image */
+                right 10em bottom -5em; /* Second image */
+    
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: auto, /* Gradient background size */
+                26em auto, /* First image size (adjusted for larger size) */
+                13em auto; /* Second image size */
+    
+            /* Ensure the first image is transparent */
+            opacity: 0.9;
+        }
+    </style>
+    
+    
+</head>
+<body class="bg-image">
+    {% block content %}
+    
+    
+
+
+    {% endblock content %}
+    <!-- sweetalert2 -->
+	<script src="{% static 'js/sweetalert2.js' %}"></script>
+
+	<script src="{% static 'js/app.js' %}"></script>
+	<script src="{% static 'js/all.js' %}"></script>
+
+	<!-- Data Table code  -->
+	<script src="{% static 'js/jquery.js' %}"></script>
+	<script src="{% static 'js/datatables.js' %}"></script>
+	<script src="{% static 'js/htmx.min.js' %}"></script> <!-- htmx code -->
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<!-- For date picker  -->
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!-- Sweetalert  -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+		crossorigin="anonymous"></script>
+</body>
+</html>

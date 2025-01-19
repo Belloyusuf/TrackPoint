@@ -1,0 +1,38 @@
+
+<!-- USER PROFILE EDIT FORM -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} profile {% endblock title %}
+
+{% block content %}
+<div class="main">
+	{% comment %} navbar code  {% endcomment %}
+	{% include "include/navbar.html" %}
+	{% comment %} Content of the project  {% endcomment %}
+    <main class="content">
+        <div class="container-fluid p-0">
+
+            <h1 class="h3 mb-3 text-muted">{{ request.user.username|capfirst }} Profile</h1>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form  method="post" enctype="multipart/form-data">
+                                <hr>
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <button type="submit" class="btn btn-sm btn-success" id="submit-btn">Update Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </main>
+
+<!-- Footer code  -->
+{% include "include/footer.html" %}
+</div>
+
+{% endblock content %}

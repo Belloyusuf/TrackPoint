@@ -1,0 +1,61 @@
+{% extends "accounts_base.html" %}
+{% load static %}
+{% block title %}Logout{% endblock title %}
+
+{% block content %}
+    <main class="d-flex w-100 bg-light">
+        <div class="container d-flex flex-column">
+            <div class="row vh-100 align-items-center">
+                <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="m-3">
+                                <h2 class="card-title">Log-out Successful</h2>
+                                <p class="card-text">You have successfully logged out. You can log in again by clicking the button below.</p>
+                                <a href="{% url 'authentication_app:login' %}" class="btn btn-sm btn-primary mt-3">Login Again</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+<style>
+    .bgcolor
+        {
+            background-image: linear-gradient(
+            rgba(255, 255, 0, 0.5),
+            rgba(0, 0, 255, 0.5)
+        ), 
+        }
+
+
+    main {
+        /* Background gradient and images */
+        background-image: linear-gradient(
+            rgba(255, 255, 0, 0.5),
+            rgba(0, 0, 255, 0.5)
+        ),
+        url("{% static 'img/beeskul.png' %}"), /* First image */
+        url("{% static 'img/beeskul.png' %}"); /* Second image */
+
+        /* Background positioning */
+        background-position:
+            left top, /* Gradient background */
+            left 1em top 5%, /* First image */
+            right 10em bottom -5em; /* Second image */
+
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: auto, /* Gradient background size */
+            26em auto, /* First image size (adjusted for larger size) */
+            13em auto; /* Second image size */
+
+        /* Ensure the first image is transparent */
+        opacity: 0.9;
+    }
+</style>
+{% endblock content %}

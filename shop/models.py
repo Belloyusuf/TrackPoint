@@ -89,7 +89,7 @@ class Product(TimeStampedModel):
 
     class Meta:
         ordering = ('name',)
-        index_together = (('id', 'slug'),)
+        # index_together = (('id', 'slug'),)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -101,6 +101,7 @@ class Product(TimeStampedModel):
             raise ValidationError("Quantity in stock cannot be negative.")
         if self.expiry_date and self.expiry_date < timezone.now().date():
             raise ValidationError("Expiry date cannot be in the past.")
+
 
     def increase_stock(self, quantity):
         self.quantity_in_stock += quantity
