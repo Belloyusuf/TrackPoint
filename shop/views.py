@@ -1,7 +1,69 @@
 from django.shortcuts import render
+from . models import Product, Category, Shelf
+from django.views.generic import CreateView, ListView
+from django.views.generic.edit import DeleteView, UpdateView
+from django.contrib.messages.views import SuccessMessageMixin
+
 
 # Create your views here.
 
 
 def dashboard(request):
-    return render(request, 'content/dashboard.html')
+    products = Product.objects.all()
+    return render(request, 'content/dashboard.html', {'products': products})
+
+
+# Create Categories
+class CreateCategory(CreateView, SuccessMessageMixin):
+    model = Category
+    template_name = 'content/create_category.html'
+    success_message = 'Category Addedd'
+    success_url = 'product_app:create_category'
+
+
+# List Categories
+class ListCategories(ListView):
+    model = Category
+    context_object_name = 'categories'
+    template_name = 'content/Category_list.html'
+    
+
+# Update Categories
+class UpdateCategories(UpdateView, SuccessMessageMixin):
+    model = Category
+    template_name = 'content/update_category'
+    success_message = 'Category updated successfully'
+    success_url = 'product_app:update_category'
+
+
+# Delete Categories
+class DeleteCategories(DeleteView, SuccessMessageMixin):
+    model = Category
+    template_name = 'content/delete_category'
+    success_message = 'Category deleted successfully'
+    success_url = 'product_app:dashboard'
+
+
+# Create Product
+class AddNewProduct(CreateView, SuccessMessageMixin):
+    model = Product
+    template_name = 'content/create_product.html'
+    success_message = 'Product Added Successfully'
+    success_url = 'product_app:create_product'
+
+
+
+# List Available Products
+class ListProducts(UpdateView, SuccessMessageMixin):
+    model = Product
+    template_name = 'content/update_product.html'
+    success_message = 'Product Updated Successfully'
+    success_url = 'product_app:update_product'
+    
+
+# Delete Products
+class DeleteProduct(DeleteView, SuccessMessageMixin):
+    model = Product
+    template_name = 'content/delete_product.html'
+    success_message = 'Product Deleted Successfully'
+    success_url = 'product_app:dashboard'
