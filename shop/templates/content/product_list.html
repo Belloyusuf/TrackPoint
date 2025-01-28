@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}product-list{% endblock title %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <!-- Item Icon Header -->
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="ik ik-list bg-blue"></i>
+                                <div class="d-inline">
+                                    <h5>Products</h5>
+                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'product_app:dashboard' %}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'product_app:dashboard' %}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Products</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Item Icon Header -->
+                <div class="card">
+                    <div class="card-header row">
+                        <div class="col col-sm-3">
+                            <a href="{% url 'product_app:add-product' %}" class="btn btn-sm btn-primary">Add New</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table id="advanced_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Shelf</th>
+                                    <th>Cost Price</th>
+                                    <th>Selling Price</th>
+                                    <th>Quantity</th>
+                                    <th>U of M</th>
+                                    <th>Barcode</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                </tr>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.category }}</td>
+                                    <td>{{ product.shelf }}</td>
+                                    <td>{{ product.cost_price }}</td>
+                                    <td>{{ product.selling_price }}</td>
+                                    <td>{{ product.quantity_in_stock }}</td>
+                                    <td>{{ product.unit_of_measurement }}</td>
+                                    <td>{{ product.barcode }}</td>
+                                </tr>
+                                {% endfor %}    
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        {% include "include/footer.html" %}
+    </div>
+</div>
+{% endblock content %}

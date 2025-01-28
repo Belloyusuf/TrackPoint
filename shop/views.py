@@ -3,6 +3,9 @@ from . models import Product, Category, Shelf
 from django.views.generic import CreateView, ListView
 from django.views.generic.edit import DeleteView, UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+
+
 
 
 # Create your views here.
@@ -47,14 +50,22 @@ class DeleteCategories(DeleteView, SuccessMessageMixin):
 # Create Product
 class AddNewProduct(CreateView, SuccessMessageMixin):
     model = Product
+    fields = '__all__'
     template_name = 'content/create_product.html'
     success_message = 'Product Added Successfully'
-    success_url = 'product_app:create_product'
+    success_url = reverse_lazy('product_app:dashboard')
 
 
 
 # List Available Products
-class ListProducts(UpdateView, SuccessMessageMixin):
+class ListProducts(ListView, SuccessMessageMixin):
+    model = Product
+    template_name = 'content/product_list.html'
+    context_object_name = 'products'    
+
+
+# Update Products
+class UpdateProducts(UpdateView, SuccessMessageMixin):
     model = Product
     template_name = 'content/update_product.html'
     success_message = 'Product Updated Successfully'

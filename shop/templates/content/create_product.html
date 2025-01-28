@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}add-products{% endblock title %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <!-- Display message after product was added -->
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+
+                <!-- Item Icon Header -->
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="ik ik-list bg-blue"></i>
+                                <div class="d-inline">
+                                    <h5>Create Product</h5>
+                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'product_app:dashboard' %}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'product_app:dashboard' %}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Products</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Item Icon Header -->
+                <div class="card">
+                    <div class="card-header row">
+                        <div class="col col-sm-3">
+                           <button class="btn btn-sm btn-primary">Add to cart</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </form>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        {% include "include/footer.html" %}
+    </div>
+</div>
+
+{% endblock content %}

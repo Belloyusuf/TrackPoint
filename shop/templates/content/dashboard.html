@@ -10,7 +10,6 @@
         <div class="main-content">
             <div class="container-fluid">
             {% include "include/header.html" %}
-                
                 <div class="card">
                     <div class="card-header row">
                         <div class="col col-sm-3">
@@ -31,7 +30,6 @@
                                     <th>Category</th>
                                     <th>Shelf</th>
                                     <th>Price</th>
-                                    <th>Quantity</th>
                                     <th>Barcode</th>
                                 </tr>
                             </thead>
@@ -48,7 +46,6 @@
                                     <td>{{ product.category }}</td>
                                     <td>{{ product.shelf }}</td>
                                     <td>{{ product.selling_price}}</td>
-                                    <td><input style="width: 50px;" type="number"></td>
                                     <td>{{ product.barcode }}</td>
                                 </tr>
                                 {% endfor %}    
@@ -313,12 +310,8 @@
             </div>
         </div>
 
-        <footer class="footer">
-            <div class="w-100 clearfix">
-                <span class="text-center text-sm-left d-md-inline-block">Copyright © 2018 ThemeKit v2.0. All Rights Reserved.</span>
-                <span class="float-none float-sm-right mt-1 mt-sm-0 text-center">Crafted with <i class="fa fa-heart text-danger"></i> by <a href="http://lavalite.org/" class="text-dark" target="_blank">Lavalite</a></span>
-            </div>
-        </footer>
+        <!-- footer -->
+        {% include "include/footer.html" %}
         
     </div>
 </div>

@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # "crispy_forms",
+    # "crispy_bootstrap4",
     'shop',
     'orders',
     'cart',
@@ -86,6 +88,11 @@ WSGI_APPLICATION = 'trackpoint.wsgi.application'
 #         'PORT': '5432',
 #     }
 # }
+
+
+# cryspy pack
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
 
 
 DATABASES = {
