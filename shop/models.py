@@ -64,8 +64,8 @@ class Product(TimeStampedModel):
         Category, related_name='products', on_delete=models.CASCADE
     )
     name = models.CharField(max_length=150, db_index=True)
-    # image = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=None, null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=None, null=True, blank=True)
+    description = models.CharField(max_length=150)
     barcode = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=150, db_index=True, unique=True)
     cost_price = models.DecimalField(max_digits=10, decimal_places=2)

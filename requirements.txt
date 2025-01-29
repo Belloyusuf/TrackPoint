@@ -1,5 +1,7 @@
 asgiref @ file:///croot/asgiref_1724072470684/work
+crispy-bootstrap4==2024.10
 Django==5.1.5
+django-crispy-forms==2.0
 pillow @ file:///croot/pillow_1738010226202/work
 psycopg==3.2.4
 setuptools==75.1.0

@@ -27,7 +27,15 @@
         <link rel="stylesheet" href="{% static 'plugins/owl.carousel/dist/assets/owl.carousel.min.css' %}">
         <link rel="stylesheet" href="{% static 'plugins/owl.carousel/dist/assets/owl.theme.default.min.css' %}">
         <link rel="stylesheet" href="{% static 'dist/css/theme.min.css' %}">
+        <!-- SweetAlert -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+		<link rel="stylesheet" href="{% static 'css/sweetalert2.css'%}">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
         <script src="{% static 'src/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+
+       
     </head>
 
     <body>
@@ -59,6 +67,7 @@
         <script src="{% static 'js/tables.js' %}"></script>
         <script src="{% static 'js/widgets.js' %}"></script>
         <script src="{% static 'js/charts.js' %}"></script>
+        <script src="{% static 'js/style.js' %}"></script>
         <script src="{% static 'dist/js/theme.min.js' %}"></script>
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
@@ -69,5 +78,12 @@
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X','auto');ga('send','pageview');
         </script>
+
+
+
+    {% load sweetify %}
+    {% sweetify %}
+
+    
     </body>
 </html>

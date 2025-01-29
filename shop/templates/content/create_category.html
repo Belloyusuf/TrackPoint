@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
 {% block title %}create-category{% endblock title %}
 
 {% block content %}
@@ -46,8 +48,8 @@
                     <div class="card-body">
                         <form action="" method="post">
                             {% csrf_token %}
-                            {{ form.as_p }}
-                            <button>Create</button>
+                            {{ form|crispy }}
+                            <button class="btn btn-block btn-sm btn-success" id="submit-btn">Create</button>
                         </form>
                     </div>
                 </div>

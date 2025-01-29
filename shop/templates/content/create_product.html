@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block title %}add-products{% endblock title %}
 
 {% block content %}
@@ -9,16 +10,6 @@
         {% include "include/sidebar.html" %}
         <div class="main-content">
             <div class="container-fluid">
-                <!-- Display message after product was added -->
-                {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-
-
                 <!-- Item Icon Header -->
                 <div class="page-header">
                     <div class="row align-items-end">
@@ -27,7 +18,7 @@
                                 <i class="ik ik-list bg-blue"></i>
                                 <div class="d-inline">
                                     <h5>Create Product</h5>
-                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                    <span>Add new products to your inventory with ease.</span>
                                 </div>
                             </div>
                         </div>
@@ -54,8 +45,82 @@
                     <div class="card-body">
                         <form action="" method="post">
                             {% csrf_token %}
-                            {{ form.as_p }}
-                            <button type="submit" class="btn btn-success">Save</button>
+                            <div class="row">
+                                <!-- product name -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.name|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- product category -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.category|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- Product shelf -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.shelf|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- product barcode  -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.barcode|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- product cost price  -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.cost_price|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- Product selling price  -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.selling_price|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Product Image  -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.image|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- Quantity in stock  -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.quantity_in_stock|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- Unit of measurement of the product  -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.unit_of_measurement|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Description -->
+                            <div class="row">
+                                <!-- Product Description -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {{ form.description|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- product expiry date  -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {{ form.expiry_date|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-success" id="submit-btn">Save</button>
                         </form>
                     
                     </div>
