@@ -29,8 +29,8 @@
                     <a href="{% url 'product_app:product-list' %}"><i class="ik ik-list"></i><span>View All Products</span></a>
                 </div>
                 <!-- Categories -->
-                <div class="nav-item">
-                    <a href="index.html"><i class="ik ik-layers"></i><span>Categories</span></a>
+                <div {% if request.resolver_match.view_name == 'product_app:list-category' or request.resolver_match.view_name == 'product_app:create-category'%} class="nav-item active" {% else %} class="nav-item" {% endif %} >
+                    <a href="{% url 'product_app:list-category' %}"><i class="ik ik-layers"></i><span>Categories</span></a>
                 </div>
                 <!-- Stock Level -->
                 <div class="nav-item has-sub">

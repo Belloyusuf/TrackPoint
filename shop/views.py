@@ -19,16 +19,17 @@ def dashboard(request):
 # Create Categories
 class CreateCategory(CreateView, SuccessMessageMixin):
     model = Category
+    fields = ['name']
     template_name = 'content/create_category.html'
     success_message = 'Category Addedd'
-    success_url = 'product_app:create_category'
+    success_url = reverse_lazy('product_app:create-category')
 
 
 # List Categories
 class ListCategories(ListView):
     model = Category
     context_object_name = 'categories'
-    template_name = 'content/Category_list.html'
+    template_name = 'content/category_list.html'
     
 
 # Update Categories

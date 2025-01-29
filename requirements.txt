@@ -1,7 +1,9 @@
-asgiref
+asgiref @ file:///croot/asgiref_1724072470684/work
 Django==5.1.5
+pillow @ file:///croot/pillow_1738010226202/work
 psycopg==3.2.4
 setuptools==75.1.0
 sqlparse==0.5.3
+sweetify==2.3.1
 typing_extensions==4.12.2
 wheel==0.44.0

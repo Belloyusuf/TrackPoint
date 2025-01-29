@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}product-list{% endblock title %}
+{% block title %}category{% endblock title %}
 
 {% block content %}
 
@@ -14,9 +14,9 @@
                     <div class="row align-items-end">
                         <div class="col-lg-8">
                             <div class="page-header-title">
-                                <i class="ik ik-list bg-blue"></i>
+                                <i class="ik ik-layers bg-blue"></i>
                                 <div class="d-inline">
-                                    <h5>Products</h5>
+                                    <h5>Categories</h5>
                                     <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
                                 </div>
                             </div>
@@ -30,48 +30,40 @@
                                     <li class="breadcrumb-item">
                                         <a href="{% url 'product_app:dashboard' %}">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page">Products</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Categories</li>
                                 </ol>
                             </nav>
                         </div>
                     </div>
                 </div>
                 <!-- End of Item Icon Header -->
+
                 <div class="card">
                     <div class="card-header row">
                         <div class="col col-sm-3">
-                            <a href="{% url 'product_app:add-product' %}" class="btn btn-sm btn-primary"><i class="ik ik-plus"></i> Add New</a>
+                            <a href="{% url 'product_app:create-category' %}" class="btn btn-sm btn-primary"> <i class="ik ik-plus"></i> New Category</a>
                         </div>
                     </div>
+                    
                     <div class="card-body">
                         <table id="advanced_table" class="table">
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Shelf</th>
-                                    <th>Cost Price</th>
-                                    <th>Selling Price</th>
-                                    <th>Quantity</th>
-                                    <th>U of M</th>
-                                    <th>Barcode</th>
+                                    <th>RPC</th>
+                                    <th>Balance</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for product in products %}
+                                {% for category in categories %}
                                 </tr>
-                                    <td>{{ product.name }}</td>
-                                    <td>{{ product.category }}</td>
-                                    <td>{{ product.shelf }}</td>
-                                    <td>{{ product.cost_price }}</td>
-                                    <td>{{ product.selling_price }}</td>
-                                    <td>{{ product.quantity_in_stock }}</td>
-                                    <td>{{ product.unit_of_measurement }}</td>
-                                    <td>{{ product.barcode }}</td>
+                                    <td>{{ category.name }}</td>
+                                    <td>43</td>
+                                    <td>N 42424</td>
                                 </tr>
                                 {% endfor %}    
                             </tbody>
-                        </table>
+                        </table>                      
                     </div>
                 </div>
             </div>
@@ -81,4 +73,5 @@
         {% include "include/footer.html" %}
     </div>
 </div>
+
 {% endblock content %}
