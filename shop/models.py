@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.db.models import Sum
 
 
 
@@ -41,6 +42,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 
 
 
@@ -98,11 +100,21 @@ class Product(TimeStampedModel):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    # Validate the form
     def clean(self):
-        if self.quantity_in_stock < 0:
+        # Ensure quantity_in_stock is not None before comparing
+        if self.quantity_in_stock is not None and self.quantity_in_stock < 0:
             raise ValidationError("Quantity in stock cannot be negative.")
+
+        # Ensure expiry_date is not None before comparing with today's date
         if self.expiry_date and self.expiry_date < timezone.now().date():
             raise ValidationError("Expiry date cannot be in the past.")
+
+        # Ensure cost_price and selling_price are not None before comparison
+        if self.cost_price is not None and self.selling_price is not None:
+            if self.selling_price <= self.cost_price:
+                raise ValidationError("Selling price must be greater than the cost price.")
+
 
 
     def increase_stock(self, quantity):
@@ -115,6 +127,17 @@ class Product(TimeStampedModel):
             raise ValueError("Insufficient stock!")
         self.quantity_in_stock -= quantity
         self.save()
+
+
+    # Return Total Balance of selling and cost price
+    @classmethod
+    def get_total_balances(cls):
+        total_cost_price = cls.objects.filter(quantity_in_stock__gt=1).aggregate(Sum('cost_price'))['cost_price__sum'] or 0
+        total_selling_price = cls.objects.filter(quantity_in_stock__gt=1).aggregate(Sum('selling_price'))['selling_price__sum'] or 0
+        return {
+            'total_cost_price': total_cost_price,
+            'total_selling_price': total_selling_price
+        }
 
     def __str__(self):
         return self.name

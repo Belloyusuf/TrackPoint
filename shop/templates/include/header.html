@@ -1,78 +1,186 @@
-<div class="row clearfix">
-    <div class="col-lg-3 col-md-6 col-sm-12">
-        <div class="widget">
-            <div class="widget-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="state">
-                        <h6>Today sells</h6>
-                        <h2>1,410</h2>
+
+<!-- News card -->
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <!-- Display Latest News with Auto-Shuffling Carousel -->
+        <div class="container mt-4">
+            <h2 class="text-muted">Global News</h2>
+
+            {% if headlines %}
+                <!-- Carousel Wrapper with Auto-Sliding Feature -->
+                <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                    <div class="carousel-inner">
+                        {% for headline in headlines %}
+                            <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                                <div class="d-flex align-items-center">
+                                    {% if headline.image %}
+                                        <!-- Display the image if available -->
+                                        <img src="{{ headline.image }}" class="d-block w-100" alt="{{ headline.title }}" style="height: 200px; object-fit: cover;">
+                                    {% else %}
+                                        <!-- Default image if no image is available -->
+                                        <img src="https://via.placeholder.com/800x200?text=No+Image" class="d-block w-100" alt="{{ headline.title }}" style="height: 200px; object-fit: cover;">
+                                    {% endif %}
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5><a href="{{ headline.url }}" target="_blank" style="color: white; text-decoration: none;">{{ headline.title }}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div class="icon">
-                        <i class="ik ik-award"></i>
-                    </div>
+                    <!-- Carousel Controls (optional) -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-                <small class="text-small mt-10 d-block">70% higher than last month</small>
-            </div>
-            <div class="progress progress-sm">
-                <div class="progress-bar bg-suceess" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" style="width: 62%;"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6 col-sm-12">
-        <div class="widget">
-            <div class="widget-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="state">
-                        <h6>Likes</h6>
-                        <h2>41,410</h2>
-                    </div>
-                    <div class="icon">
-                        <i class="ik ik-thumbs-up"></i>
-                    </div>
-                </div>
-                <small class="text-small mt-10 d-block">61% higher than last month</small>
-            </div>
-            <div class="progress progress-sm">
-                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6 col-sm-12">
-        <div class="widget">
-            <div class="widget-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="state">
-                        <h6>Events</h6>
-                        <h2>410</h2>
-                    </div>
-                    <div class="icon">
-                        <i class="ik ik-calendar"></i>
-                    </div>
-                </div>
-                <small class="text-small mt-10 d-block">Total Events</small>
-            </div>
-            <div class="progress progress-sm">
-                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100" style="width: 31%;"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6 col-sm-12">
-        <div class="widget">
-            <div class="widget-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="state">
-                        <h6>Comments</h6>
-                        <h2>41,410</h2>
-                    </div>
-                    <div class="icon">
-                        <i class="ik ik-message-square"></i>
-                    </div>
-                </div>
-                <small class="text-small mt-10 d-block">Total Comments</small>
-            </div>
-            <div class="progress progress-sm">
-                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
-            </div>
+            {% else %}
+                <p>No news available at the moment.</p>
+            {% endif %}
         </div>
     </div>
 </div>
+
+
+
+<!-- Headers card -->
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+        <p id="greeting" class="m-0">Good Morning, Bello Yusuf</p>
+        <span id="toggleEye" class="ik ik-eye text-secondary" style="cursor: pointer; font-size: 1.3rem;"></span>
+    </div>
+    
+
+    <div class="card-body">
+        <div class="row">
+            <!-- Today's Sells -->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted">Today’s Sells</h6>
+                        <h4 class="amount fw-bold text-dark" data-value="{{ total_cost_price }}">₦ 434,443.00</h4>
+                        <small class="text-muted">Total sells of today</small>
+                        <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress-bar bg-warning" style="width: 31%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's Profit -->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted">Today’s Profit</h6>
+                        <h4 class="amount fw-bold text-dark" data-value="{{ total_cost_price }}">₦ 729,475</h4>
+                        <small class="text-muted">Total today's profit</small>
+                        <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress-bar bg-success" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Cost Price -->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted">Total Cost Price</h6>
+                        <h4 class="amount fw-bold text-dark" data-value="{{ total_cost_price }}">₦ {{ total_cost_price }}</h4>
+                        <small class="text-muted">Total cost balance</small>
+                        <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress-bar bg-primary" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Sell Price -->
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted">Total Sell Price</h6>
+                        <h4 class="amount fw-bold text-dark" data-value="{{ total_selling_price }}">₦ {{ total_selling_price }}</h4>
+                        <small class="text-muted">Total selling balance</small>
+                        <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress-bar bg-info" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- JavaScript to Toggle Visibility and Save Preference -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleButton = document.getElementById("toggleEye");
+        const amounts = document.querySelectorAll(".amount");
+
+        // Retrieve user preference from localStorage
+        let isHidden = localStorage.getItem("hideFigures") === "true";
+
+        // Function to format numbers with commas and two decimal places
+        function formatNumber(value) {
+            return parseFloat(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Function to update UI based on visibility preference
+        function updateAmounts() {
+            amounts.forEach(element => {
+                let originalValue = element.getAttribute("data-value");
+                element.innerText = isHidden ? "₦ ****" : "₦ " + formatNumber(originalValue);
+            });
+
+            toggleButton.classList.toggle("ik-eye", !isHidden);
+            toggleButton.classList.toggle("ik-eye-off", isHidden);
+        }
+
+        // Initial UI setup
+        updateAmounts();
+
+        // Click event to toggle visibility
+        toggleButton.addEventListener("click", function () {
+            isHidden = !isHidden;
+            localStorage.setItem("hideFigures", isHidden);
+            updateAmounts();
+        });
+    });
+
+</script>
+
+<!-- Greetings code  -->
+<script>
+    function getTimeOfDay() {
+        const hour = new Date().getHours();
+        if (hour >= 5 && hour < 12) {
+            return 'Morning';
+        } else if (hour >= 12 && hour < 18) {
+            return 'Afternoon';
+        } else {
+            return 'Evening';
+        }
+    }
+
+    function updateGreeting() {
+        const greetingElement = document.getElementById('greeting');
+        if (greetingElement) {  
+            const timeOfDay = getTimeOfDay();
+            greetingElement.textContent = `Good ${timeOfDay}, Bello Yusuf`;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', updateGreeting);
+</script>
+
+
+
+<!-- Add Bootstrap JS and Popper for the Carousel functionality -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+{% comment %} <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script> {% endcomment %}
