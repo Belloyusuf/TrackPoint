@@ -7,7 +7,6 @@ app_name = 'product_app'
 
 
 urlpatterns = [
-    path("", views.dashboard, name="dashboard"),
     # Product urls
     path("products-list", views.ListProducts.as_view(), name="product-list"),
     path("create-product/", views.AddNewProduct.as_view(), name="add-product"),

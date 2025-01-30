@@ -1,6 +1,6 @@
 <div class="app-sidebar colored">
     <div class="sidebar-header">
-        <a class="header-brand" href="{% url 'product_app:dashboard' %}">
+        <a class="header-brand" href="{% url 'inventory_app:dashboard' %}">
             {% comment %} <div class="logo-img">
                <img src="src/img/brand-white.svg" class="header-brand-img" alt="lavalite"> 
             </div> {% endcomment %}
@@ -15,13 +15,13 @@
             <nav id="main-menu-navigation" class="navigation-main">
                 <div class="nav-lavel">Dashboard</div>
                 <!-- Dashboard -->
-                <div {% if request.resolver_match.view_name == 'product_app:dashboard' %}  class="nav-item active" {% else %} class="nav-item" {% endif %}>
-                    <a href="{% url 'product_app:dashboard' %}"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
+                <div {% if request.resolver_match.view_name == 'inventory_app:dashboard' %}  class="nav-item active" {% else %} class="nav-item" {% endif %}>
+                    <a href="{% url 'inventory_app:dashboard' %}"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
                 </div>
                 <!-- Products List -->
                 <div class="nav-lavel">Products</div>
                 <!-- Add new product -->
-                <div {% if request.resolver_match.view_name == 'product_app:add-product' %}  class="nav-item active" {% else %} class="nav-item" {% endif %}>
+                <div {% if request.resolver_match.view_name == 'inventory_app:add-product' %}  class="nav-item active" {% else %} class="nav-item" {% endif %}>
                     <a href="{% url 'product_app:add-product' %}"><i class="ik ik-plus"></i><span>Add New Product</span></a>
                 </div>
                 <!-- View All Products -->
