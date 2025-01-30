@@ -47,6 +47,7 @@ def dashboard(request):
 
 
 
+
 # Create Categories
 class CreateCategory(SweetifySuccessMixin, CreateView):
     model = Category

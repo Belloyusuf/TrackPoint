@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}add-products{% endblock title %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <!-- Item Icon Header -->
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="ik ik-home bg-blue"></i>
+                                <div class="d-inline">
+                                    <h5>Set up your inventory </h5>
+                                    <span>Configure your inventory with ease.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'product_app:dashboard' %}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'product_app:dashboard' %}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Inventory</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Item Icon Header -->
+                <div class="card">
+                    <div class="card-header row">
+                        <!-- Header -->
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <!-- Inventory Name -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.name|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- Inventory Logo -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.logo|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- Inventory Email -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.email|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Inventory Address  -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.address|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- Inventory Primary Phone Number  -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.phone1|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <!-- Inventory Alt Phone Number  -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.phone2|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Inventory web address  -->
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form.web_address|as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-success" id="submit-btn">Save</button>
+                        </form>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        {% include "include/footer.html" %}
+    </div>
+</div>
+
+{% endblock content %}

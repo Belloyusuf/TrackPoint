@@ -66,7 +66,7 @@ class Product(TimeStampedModel):
         Category, related_name='products', on_delete=models.CASCADE
     )
     name = models.CharField(max_length=150, db_index=True)
-    image = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=None, null=True, blank=True)
+    image = models.ImageField(upload_to="ProductImages", height_field=None, width_field=None, max_length=None, null=True, blank=True)
     description = models.CharField(max_length=150)
     barcode = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=150, db_index=True, unique=True)
@@ -141,3 +141,12 @@ class Product(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+
+
+
+
+    
+
+
+    

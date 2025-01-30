@@ -4,7 +4,15 @@ from django.core.exceptions import ValidationError
 
 
 
+
+
+
+
+
+
+# Product Form
 class ProductForm(forms.ModelForm):
+    """ Form that would handle product's creation """
     class Meta:
         model = Product
         widgets ={

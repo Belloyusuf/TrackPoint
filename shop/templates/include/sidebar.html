@@ -1,6 +1,6 @@
 <div class="app-sidebar colored">
     <div class="sidebar-header">
-        <a class="header-brand" href="index.html">
+        <a class="header-brand" href="{% url 'product_app:dashboard' %}">
             {% comment %} <div class="logo-img">
                <img src="src/img/brand-white.svg" class="header-brand-img" alt="lavalite"> 
             </div> {% endcomment %}
@@ -145,6 +145,11 @@
                 <div class="nav-item">
                     <a href="pages/taskboard.html"><i class="ik ik-slash"></i><span>Notification Settings</span></a>
                 </div>
+                <!-- Inventory Settings -->
+                <div {% if request.resolver_match.view_name == 'inventory_app:inventory-create' %}  class="nav-item active" {% else %} class="nav-item" {% endif %}>
+                    <a href="{% url 'inventory_app:inventory-create' %}"><i class="ik ik-settings"></i><span>Inventory Settings</span></a>
+                </div>
+
 
                 <!-- Notification -->
                 <div class="nav-lavel">Notification</div>
