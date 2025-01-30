@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-{% block title %}add-products{% endblock title %}
+{% block title %}set-up-inventory{% endblock title %}
 
 {% block content %}
 
@@ -17,7 +17,7 @@
                             <div class="page-header-title">
                                 <i class="ik ik-home bg-blue"></i>
                                 <div class="d-inline">
-                                    <h5>Set up your inventory </h5>
+                                    <h5>Set up your Inventory </h5>
                                     <span>Configure your inventory with ease.</span>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                         <!-- Header -->
                     </div>
                     <div class="card-body">
-                        <form action="" method="post">
+                        <form action="" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="row">
                                 <!-- Inventory Name -->

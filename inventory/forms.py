@@ -10,7 +10,6 @@ class InventoryForm(forms.ModelForm):
         model = InventorySetting
         widgets = {
             "email":forms.EmailInput(attrs={"class":"form-control", "type":"email"}),
-            "logo":forms.FileInput(attrs={"class":"form-control", "type":"file"})
         }
         fields = [
             "name", "logo", "address", "email", "web_address", "phone1", "phone2"
