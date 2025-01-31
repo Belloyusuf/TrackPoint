@@ -2,11 +2,10 @@ from django.shortcuts import render
 from . models import Product, Category, Shelf
 from django.views.generic import CreateView, ListView
 from django.views.generic.edit import DeleteView, UpdateView
-from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from . forms import ProductForm
 from sweetify.views import SweetifySuccessMixin
-from django.http import JsonResponse
+from django.db.models import Count, Sum
 import sweetify
 import requests
 
@@ -29,6 +28,11 @@ class ListCategories(ListView):
     model = Category
     context_object_name = 'categories'
     template_name = 'content/category_list.html'
+
+    def get_queryset(self):
+        """ Return Total product in each category """
+        queryset = super().get_queryset().annotate(total_product=Count("products"), total_amount=Sum("products"))
+        return queryset
     
 
 # Update Categories

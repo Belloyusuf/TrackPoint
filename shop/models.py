@@ -67,7 +67,7 @@ class Product(TimeStampedModel):
     )
     name = models.CharField(max_length=150, db_index=True)
     image = models.ImageField(upload_to="ProductImages", height_field=None, width_field=None, max_length=None, null=True, blank=True)
-    description = models.CharField(max_length=150)
+    description = models.CharField(max_length=150, blank=True, null=True)
     barcode = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=150, db_index=True, unique=True)
     cost_price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -114,7 +114,6 @@ class Product(TimeStampedModel):
         if self.cost_price is not None and self.selling_price is not None:
             if self.selling_price <= self.cost_price:
                 raise ValidationError("Selling price must be greater than the cost price.")
-
 
 
     def increase_stock(self, quantity):

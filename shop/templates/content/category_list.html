@@ -58,8 +58,8 @@
                                 {% for category in categories %}
                                 </tr>
                                     <td>{{ category.name }}</td>
-                                    <td>43</td>
-                                    <td>N 42424</td>
+                                    <td>{{ category.total_product }}</td>
+                                    <td>N {{ category.total_amount }}</td>
                                 </tr>
                                 {% endfor %}    
                             </tbody>

@@ -25,21 +25,21 @@ def dashboard(request):
     url = f'https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}'
 
     # Fetching news from NewsAPI
-    # response = requests.get(url)
-    # data = response.json()
+    response = requests.get(url)
+    data = response.json()
 
-    # if response.status_code == 200 and 'articles' in data:
-    #     # Extracting the top 5 news headlines
-    #     headlines = [{'title': article['title'], 'image': article.get('urlToImage', '') , 'url': article['url']} for article in data['articles'][:5]]
-    # else:
-    #     headlines = []
+    if response.status_code == 200 and 'articles' in data:
+        # Extracting the top 5 news headlines
+        headlines = [{'title': article['title'], 'image': article.get('urlToImage', '') , 'url': article['url']} for article in data['articles'][:5]]
+    else:
+        headlines = []
 
     # Pass the products and news to the template
     return render(request, 'content/dashboard.html', {
         'products': products,
         'total_cost_price': balances['total_cost_price'], 
         'total_selling_price': balances['total_selling_price'],
-        # 'headlines': headlines,
+        'headlines': headlines,
     })
 
 
