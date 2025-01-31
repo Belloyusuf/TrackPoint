@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}inventory{% endblock title %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <!-- Item Icon Header -->
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="ik ik-layers bg-blue"></i>
+                                <div class="d-inline">
+                                    <h5>Inventory</h5>
+                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Inventory</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Item Icon Header -->
+
+                <div class="card">
+                    <div class="card-header row">
+                        {% if inventory %}
+                            <div class="col col-sm-3">
+                                <a href="#" class="btn btn-sm btn-primary disabled"> <i class="ik ik-plus"></i> New Inventory</a>
+                            </div>
+                        {% else %}
+                            <div class="col col-sm-3">
+                                <a href="{% url 'inventory_app:inventory-create' %}" class="btn btn-sm btn-primary"> <i class="ik ik-plus"></i> New Inventory</a>
+                            </div>
+                        {% endif %}
+                        
+                    </div>
+                    
+                    <div class="card-body">
+                        <table id="advanced_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Action</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for inventory in inventory %}
+                                </tr>
+                                    <td>
+                                       {{ inventory.name }}
+                                    </td>
+                                    <td>{{ inventory.address }}</td>
+                                    <td>
+                                        <a href="{% url 'inventory_app:inventory-update' inventory.id %}"><i class="ik ik-edit f-16 mr-15 text-green"></i></a>
+                                        <a href="#!"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                                    </td>
+
+                                    <td>{{ inventory.email }}</td>
+                                </tr>
+                                {% endfor %}    
+                            </tbody>
+                        </table>                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        {% include "include/footer.html" %}
+    </div>
+</div>
+
+{% endblock content %}

@@ -77,28 +77,38 @@ class InventoryCreateView(SweetifySuccessMixin, CreateView):
         return super().post(request, *args, **kwargs)
     
 
-    def form_valid(self, form):
-        # Save the product
-        form.save()
+    # def form_valid(self, form):
+    #     # Save the product
+    #     form.save()
         
-        # Show a success toast message
-        sweetify.toast(self.request, self.success_message, icon="success")
+    #     # Show a success toast message
+    #     sweetify.toast(self.request, self.success_message, icon="success")
         
-        # Return an empty form to clear the input fields
-        return self.render_to_response(self.get_context_data(form=self.form_class()))
+    #     # Return an empty form to clear the input fields
+    #     return self.render_to_response(self.get_context_data(form=self.form_class()))
 
-    def form_invalid(self, form):
-        # If the form is invalid, show an error message
-        error_message = form.errors.get('__all__', ['Something went wrong.'])[0]
-        sweetify.toast(self.request, error_message, icon="error")
+    # def form_invalid(self, form):
+    #     # If the form is invalid, show an error message
+    #     error_message = form.errors.get('__all__', ['Something went wrong.'])[0]
+    #     sweetify.toast(self.request, error_message, icon="error")
         
-        # Return the template with the invalid form data
-        return self.render_to_response(self.get_context_data(form=form))
+    #     # Return the template with the invalid form data
+    #     return self.render_to_response(self.get_context_data(form=form))
     
 
 
+
+# Inventory List
+class InventoryList(ListView):
+    """ List Inventory Information """
+    model = InventorySetting
+    context_object_name = "inventory"
+    template_name = "content/inventory_list.html"
+
+
+
 # Update Inventory
-class InventoryUpdate(SweetifySuccessMixin, CreateView):
+class InventoryUpdate(SweetifySuccessMixin, UpdateView):
     """ Update your inventory: Name, Address, Email, Logo ETC"""
     model = InventorySetting
     form_class = InventoryForm

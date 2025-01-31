@@ -22,7 +22,7 @@ class InventorySetting(TimeStampedModel):
     logo = models.ImageField(upload_to="InventoryImages", height_field=None, width_field=None, max_length=None)
     address = models.CharField(max_length=150)
     email = models.EmailField(max_length=254, null=True, blank=True)
-    web_address = models.CharField(max_length=150, null=True, blank=True)
+    web_address = models.CharField(("Web Address"), max_length=150, null=True, blank=True, help_text="Store website Address")
     phone1 = models.CharField(("Phone Number"), max_length=20)
     phone2 = models.CharField(("Phone Number 2"), max_length=20, null=True, blank=True)
 
