@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}  <!-- for proper number formatting. --> 
+{% block title %}Shopping Cart{% endblock title %}
+
+{% block content %}
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="mb-4">Shopping Cart List <i class="fa fa-shopping-cart"></i></h2>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Remove</th>
+                                        <th>Unit Price</th>
+                                        <th>Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in cart %}
+                                    {% with product=item.product %}
+                                    <tr>
+                                        <td>
+                                            <strong>{{ product.name }}</strong> <br>
+                                            <small class="text-muted">Barcode: {{ product.barcode }}</small>
+                                        </td>
+                                        <td>
+                                            <form action="{% url "cart_app:cart-add" product.id %}" method="post" class="d-flex align-items-center">
+                                                {{ item.update_quantity_form.quantity }}
+                                                {{ item.update_quantity_form.override }}
+                                                <button class="btn btn-sm btn-primary ms-2">
+                                                    <i class="fa fa-sync-alt"></i>
+                                                </button>
+                                                {% csrf_token %}
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="{% url "cart_app:cart-remove" product.id %}" method="post">
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                                {% csrf_token %}
+                                            </form>
+                                        </td>
+                                        <td class="text-end">₦ {{ item.price }}</td>
+                                        <td class="text-end fw-bold">₦ {{ item.total_price }}</td>
+                                    </tr>
+                                    {% endwith %}
+                                    {% endfor %}
+                                    <tr class="table-warning">
+                                        <td colspan="4" class="text-end fw-bold">Total</td>
+                                        <td class="text-end fw-bold">₦ {{ cart.get_total_price|floatformat:2|intcomma }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <a href="{% url "product_app:product-list" %}" class="btn btn-outline-secondary">
+                                <i class="fa fa-arrow-left"></i> Continue Shopping
+                            </a>
+                          
+                            <a href="#" class="btn btn-success">
+                                Checkout <i class="fa fa-credit-card"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        {% include "include/footer.html" %}
+    </div>
+</div>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      // Bind all cart update forms to AJAX submit
+      const forms = document.querySelectorAll('form[id^="update-cart-form-"]');
+      forms.forEach(form => {
+          form.addEventListener('submit', function (event) {
+              event.preventDefault(); // Prevent regular form submission
+              const formData = new FormData(form);
+
+              fetch(form.action, {
+                  method: 'POST',
+                  body: formData,
+              })
+              .then(response => response.json()) // Expecting JSON response from server
+              .then(data => {
+                  if (data.success) {
+                      // Update the cart display with the new total price or any changes
+                      document.getElementById('cart-total').innerText = data.total_price;
+                      // Optionally, update the cart items
+                      document.getElementById('cart-items').innerHTML = data.cart_items_html;
+                  }
+              })
+              .catch(error => {
+                  console.error('Error updating cart:', error);
+              });
+          });
+      });
+  });
+</script>
+
+
+{% endblock content %}

@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from . models import Product, Category, Shelf
 from django.views.generic import CreateView, ListView
 from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy
 from . forms import ProductForm
+from cart.forms import CartAddProductForm
 from sweetify.views import SweetifySuccessMixin
 from django.db.models import Count, Sum
 import sweetify
@@ -81,10 +82,48 @@ class AddNewProduct(SweetifySuccessMixin, CreateView):
 
 
 # List Available Products
-class ListProducts(SweetifySuccessMixin, ListView):
+class ProductListView(ListView):
     model = Product
     template_name = 'content/product_list.html'
-    context_object_name = 'products'    
+    context_object_name = 'products'
+    
+    def get_queryset(self):
+        """Filter products based on the category slug (if provided)."""
+        category_slug = self.kwargs.get('category_slug')
+        queryset = Product.objects.all()
+        
+        if category_slug:
+            category = get_object_or_404(Category, slug=category_slug)
+            queryset = queryset.filter(category=category)
+        
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        """ Add categories and selected category to the context. """
+        context = super().get_context_data(**kwargs)
+        category_slug = self.kwargs.get('category_slug')
+        context['categories'] = Category.objects.all()
+        context['category'] = get_object_or_404(Category, slug=category_slug) if category_slug else None
+        return context
+    
+
+# class ListProducts(SweetifySuccessMixin, ListView):
+#     model = Product
+#     template_name = 'content/product_list.html'
+#     context_object_name = 'products'    
+
+
+
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product,
+                                id=id,
+                                slug=slug)
+    cart_product_form = CartAddProductForm()
+
+    return render(request,
+                  'content/product_detail.html',
+                  {'product': product,
+                   'cart_product_form': cart_product_form})
 
 
 # Update Products

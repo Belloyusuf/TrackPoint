@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            
+                          </div>
+                            <div class="product-detail">
+                              <div class="media">
+                                <img src="{% if product.image %}{{ product.image.url }}{% else %}
+                                {% static "img/no_image.png" %}{% endif %}" class="align-self-start mr-3 shadow" style="border-radius: 10px;" alt="...">
+                                <div class="media-body">
+                                  <h2 class="mt-0">{{ product.name }}</h2>
+                                  <h5>
+                                    <a href="{{ product.category.get_absolute_url }}">
+                                      {{ product.category }}
+                                    </a>
+                                  </h5>
+                                  <p class="price">${{ product.selling_price }}</p>
+                          
+                                  <form action="{% url 'cart_app:cart-add' product.id %}" method="post">
+                                    {{ cart_product_form }}
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success">Add to cart <span> <i class="fa fa-cart-plus"></i></span></button>
+                                  </form>
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        {% include "include/footer.html" %}
+    </div>
+</div>
+
+{% endblock content %}

@@ -3,6 +3,8 @@ from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.db.models import Sum
+from django.urls import reverse
+
 
 
 
@@ -93,7 +95,14 @@ class Product(TimeStampedModel):
 
     class Meta:
         ordering = ('name',)
-        # index_together = (('id', 'slug'),)
+        indexes = [
+            models.Index(fields=['id', 'slug']), 
+        ]
+
+    def get_absolute_url(self):
+        return reverse('product_app:product-detail',
+                        args=[self.id, self.slug])
+
 
     def save(self, *args, **kwargs):
         if not self.slug:

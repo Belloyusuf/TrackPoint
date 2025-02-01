@@ -21,12 +21,12 @@
                 <!-- Products List -->
                 <div class="nav-lavel">Products</div>
                 <!-- Add new product -->
-                <div {% if request.resolver_match.view_name == 'inventory_app:add-product' %}  class="nav-item active" {% else %} class="nav-item" {% endif %}>
+                {% comment %} <div {% if request.resolver_match.view_name == 'inventory_app:add-product' %}  class="nav-item active" {% else %} class="nav-item" {% endif %}>
                     <a href="{% url 'product_app:add-product' %}"><i class="ik ik-plus"></i><span>Add New Product</span></a>
-                </div>
+                </div> {% endcomment %}
                 <!-- View All Products -->
                 <div {% if request.resolver_match.view_name == 'product_app:product-list' %}  class="nav-item active" {% else %} class="nav-item" {% endif %}>
-                    <a href="{% url 'product_app:product-list' %}"><i class="ik ik-list"></i><span>View All Products</span></a>
+                    <a href="{% url 'product_app:product-list' %}"><i class="ik ik-list"></i><span>All Products</span></a>
                 </div>
                 <!-- Categories -->
                 <div {% if request.resolver_match.view_name == 'product_app:list-category' or request.resolver_match.view_name == 'product_app:create-category'%} class="nav-item active" {% else %} class="nav-item" {% endif %} >

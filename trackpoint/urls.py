@@ -18,9 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    # path('auth/', include('authentications.urls')),
     path('admin/', admin.site.urls),
     path('shop/', include('shop.urls')),
     path('inventory/', include('inventory.urls')),
-    # path('auth/', include('authentications.urls')),
+    path('cart/', include('cart.urls', namespace='cart')),
     # path('order/', include('orders.urls')),
 ]

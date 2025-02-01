@@ -54,6 +54,7 @@
                                     <th>Selling Price</th>
                                     <th>Quantity</th>
                                     <th>U of M</th>
+                                    <th>Action</th>
                                     <th>Barcode</th>
                                 </tr>
                             </thead>
@@ -67,6 +68,7 @@
                                     <td>{{ product.selling_price }}</td>
                                     <td>{{ product.quantity_in_stock }}</td>
                                     <td>{{ product.unit_of_measurement }}</td>
+                                    <td><a href="{{ product.get_absolute_url }}"><i class="ik ik-edit f-16 mr-15 text-green"></i></a></td>
                                     <td>{{ product.barcode }}</td>
                                 </tr>
                                 {% endfor %}    
