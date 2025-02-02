@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="{% static 'plugins/owl.carousel/dist/assets/owl.carousel.min.css' %}">
         <link rel="stylesheet" href="{% static 'plugins/owl.carousel/dist/assets/owl.theme.default.min.css' %}">
         <link rel="stylesheet" href="{% static 'dist/css/theme.min.css' %}">
+        <link rel="stylesheet" href="{% static 'dist/css/datatables.css' %}">
         <!-- SweetAlert -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
 		<link rel="stylesheet" href="{% static 'css/sweetalert2.css'%}">
@@ -68,6 +69,7 @@
         <script src="{% static 'js/tables.js' %}"></script>
         <script src="{% static 'js/widgets.js' %}"></script>
         <script src="{% static 'js/charts.js' %}"></script>
+        <script src="{% static 'js/datatables.js' %}"></script>
         <script src="{% static 'js/style.js' %}"></script>
         <script src="{% static 'dist/js/theme.min.js' %}"></script>
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -82,9 +84,18 @@
 
 
 
+    	<!-- Data Table code  -->
+    <script>
+        let table = new DataTable('#myTable', {
+            // Set how many list you want it to display
+            // Default is 10
+            pageLength:20
+        });
+    </script>
+
     {% load sweetify %}
     {% sweetify %}
 
-    
+
     </body>
 </html>

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}product-list{% endblock title %}
+{% block title %}Product List{% endblock title %}
 
 {% block content %}
 
@@ -17,7 +17,7 @@
                                 <i class="ik ik-list bg-blue"></i>
                                 <div class="d-inline">
                                     <h5>Products</h5>
-                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                    <span>Manage your product inventory easily</span>
                                 </div>
                             </div>
                         </div>
@@ -37,50 +37,73 @@
                     </div>
                 </div>
                 <!-- End of Item Icon Header -->
+
+                <!-- Product List Card -->
                 <div class="card">
                     <div class="card-header row">
-                        <div class="col col-sm-3">
-                            <a href="{% url 'product_app:add-product' %}" class="btn btn-sm btn-primary"><i class="ik ik-plus"></i> Add New</a>
+                        <div class="col-sm-12 col-md-6">
+                            <a href="{% url 'product_app:add-product' %}" class="btn btn-sm btn-primary"><i class="ik ik-plus"></i> Add New Product</a>
                         </div>
                     </div>
+
                     <div class="card-body">
-                        <table id="advanced_table" class="table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Shelf</th>
-                                    <th>Cost Price</th>
-                                    <th>Selling Price</th>
-                                    <th>Quantity</th>
-                                    <th>U of M</th>
-                                    <th>Action</th>
-                                    <th>Barcode</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for product in products %}
-                                </tr>
-                                    <td>{{ product.name }}</td>
-                                    <td>{{ product.category }}</td>
-                                    <td>{{ product.shelf }}</td>
-                                    <td>{{ product.cost_price }}</td>
-                                    <td>{{ product.selling_price }}</td>
-                                    <td>{{ product.quantity_in_stock }}</td>
-                                    <td>{{ product.unit_of_measurement }}</td>
-                                    <td><a href="{{ product.get_absolute_url }}"><i class="ik ik-edit f-16 mr-15 text-green"></i></a></td>
-                                    <td>{{ product.barcode }}</td>
-                                </tr>
-                                {% endfor %}    
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table id="advanced_table" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="padding-left: 2rem; white-space: normal; overflow-wrap: break-word;">Name</th>
+                                        <th>Category</th>
+                                        <th>Shelf</th>
+                                        <th>Cost Price</th>
+                                        <th>Selling Price</th>
+                                        <th>Quantity</th>
+                                        <th>U of M</th>
+                                        <th>Actions</th>
+                                        <th>Barcode</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product in products %}
+                                        <tr>
+                                            <!-- Add left padding here -->
+                                            <td style="padding-left: 2rem; white-space: normal; overflow-wrap: break-word;">{{ product.name }}</td>
+                                            <td>{{ product.category }}</td>
+                                            <td>{{ product.shelf }}</td>
+                                            <td>${{ product.cost_price }}</td>
+                                            <td>${{ product.selling_price }}</td>
+                                            <td>
+                                                {% if product.quantity_in_stock > 0 %}
+                                                    {{ product.quantity_in_stock }}
+                                                {% else %}
+                                                    <span class="text-danger">Out of Stock</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ product.unit_of_measurement }}</td>
+                                            <td>
+                                                {% if product.quantity_in_stock > 0 %}
+                                                    <a href="{{ product.get_absolute_url }}" class="text-success"><i class="ik ik-shopping-cart f-16 mr-15"></i></a>
+                                                {% else %}
+                                                    <a href="#" class="text-success disabled"><i class="ik ik-shopping-cart f-16 mr-15"></i></a>
+                                                {% endif %}
+                                    
+                                                <a href="{% url 'product_app:update-product' product.id product.slug %}" class="text-primary">
+                                                    <i class="ik ik-edit f-16"></i>
+                                                </a>
+                                            </td>
+                                            <td>{{ product.barcode }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- footer -->
+        <!-- Footer -->
         {% include "include/footer.html" %}
     </div>
 </div>
+
 {% endblock content %}

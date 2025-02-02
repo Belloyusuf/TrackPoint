@@ -107,32 +107,42 @@ class ProductListView(ListView):
         return context
     
 
-# class ListProducts(SweetifySuccessMixin, ListView):
-#     model = Product
-#     template_name = 'content/product_list.html'
-#     context_object_name = 'products'    
 
 
+# Product detail
+# def product_detail(request, id, slug):
+#     product = get_object_or_404(Product,
+#                                 id=id,
+#                                 slug=slug)
+#     cart_product_form = CartAddProductForm()
+
+#     return render(request,
+#                   'content/product_detail.html',
+#                   {'product': product,
+#                    'cart_product_form': cart_product_form})
 
 def product_detail(request, id, slug):
-    product = get_object_or_404(Product,
-                                id=id,
-                                slug=slug)
-    cart_product_form = CartAddProductForm()
+    product = get_object_or_404(Product, id=id, slug=slug)
+    cart_product_form = CartAddProductForm(product=product)  # Pass product to form
 
-    return render(request,
-                  'content/product_detail.html',
-                  {'product': product,
-                   'cart_product_form': cart_product_form})
+    return render(request, 'content/product_detail.html', {
+        'product': product,
+        'cart_product_form': cart_product_form,
+    })
 
 
-# Update Products
+
 class UpdateProducts(SweetifySuccessMixin, UpdateView):
     model = Product
+    form_class = ProductForm
     template_name = 'content/update_product.html'
     success_message = 'Product Updated Successfully'
-    success_url = 'product_app:update_product'
-    
+
+    def get_success_url(self):
+        # After the object is saved, we can safely access self.object
+        return reverse_lazy('product_app:update-product', args=[self.object.id, self.object.slug])
+
+
 
 # Delete Products
 class DeleteProduct(SweetifySuccessMixin, DeleteView):

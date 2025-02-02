@@ -15,7 +15,7 @@
                 <button type="button" id="navbar-fullscreen" class="nav-link"><i class="ik ik-maximize"></i></button>
             </div>
 
-            <div class="cart">
+            {% comment %} <div class="cart">
                 {% with total_items=cart|length %}
                     {% if total_items > 0 %}
                     Your cart:
@@ -27,7 +27,7 @@
                         Your cart is empty.
                     {% endif %}
                 {% endwith %}
-            </div>
+            </div> {% endcomment %}
             
             <div class="top-menu d-flex align-items-center">
                 <div class="dropdown">

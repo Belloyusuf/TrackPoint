@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %} Invoice #{{ order.id }} {% endblock title %}
+
+{% block content %}
+<div class="container" style="font-family: Arial, sans-serif; width: 100%; margin: 0 auto; max-width: 80mm;">
+    <div style="text-align: center;">
+        <h2>{{ inventory.name }}</h2>
+        <p>{{ inventory.address }}</p>
+        <p>Phone: {{ inventory.phone1 }} | {{ inventory.email }} | {{ inventory.web_address }}</p>
+        <h4>Invoice</h4>
+        <hr style="border: 1px solid #000;">
+    </div>
+
+    <div style="font-size: 12px;">
+        <p><strong>Invoice No:</strong> INV/{{ order.created|date:"Y" }} {{ order.id }}</p>
+        <p><strong>Date:</strong> {{ order.created|date:"Y-m-d H:i:s" }}</p>
+        <p><strong>Customer Type:</strong> {{ order.customer_type }}</p>
+        <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+        <br>
+
+        <div style="width: 100%; border-top: 1px solid #000; padding-top: 5px;">
+            <p style="margin-bottom: 5px;">Product Details:</p>
+            <table style="width: 100%; font-size: 10px; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th style="text-align: left; padding-right: 5px;">Product</th>
+                        <th style="text-align: left; padding-right: 5px;">Qty</th>
+                        <th style="text-align: right; padding-left: 5px;">Price</th>
+                        <th style="text-align: right; padding-left: 5px;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td style="padding: 2px 0;">{{ item.product.name }}</td>
+                        <td style="padding: 2px 0; text-align: center;">{{ item.quantity }}</td>
+                        <td style="padding: 2px 0; text-align: right;">${{ item.price }}</td>
+                        <td style="padding: 2px 0; text-align: right;">${{ item.get_cost }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 5px; text-align: right;">
+            <strong>Grand Total: ${{ order.get_total_cost }}</strong>
+        </div>
+
+        <br>
+
+        <div style="text-align: center;">
+            <p><small>Thank you for your purchase!</small></p>
+        </div>
+
+        <button onclick="window.print()" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer;">
+            <i class="fa fa-print"></i> Print Invoice
+        </button>
+    </div>
+</div>
+{% endblock content %}

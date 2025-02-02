@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     "sweetify",
     'shop',
-    # 'orders',
+    'orders',
     'cart',
     'inventory'
 

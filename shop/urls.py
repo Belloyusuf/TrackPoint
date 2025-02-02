@@ -10,7 +10,7 @@ urlpatterns = [
     # Product urls
     path("products-list", views.ProductListView.as_view(), name="product-list"),
     path("create-product/", views.AddNewProduct.as_view(), name="add-product"),
-    path("update-product/", views.UpdateProducts.as_view(), name="update-product"),
+    path("update/<int:id>/<slug:slug>/", views.UpdateProducts.as_view(), name="update-product"),
     path("delete-product/", views.DeleteProduct.as_view(), name="delete-product"),
     path('<int:id>/<slug:slug>/', views.product_detail, name='product-detail'),
     

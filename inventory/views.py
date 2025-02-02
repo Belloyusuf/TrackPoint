@@ -9,7 +9,9 @@ from django.views.generic import CreateView, ListView
 from django.views.generic.edit import UpdateView
 import sweetify
 import requests
-
+from django.utils import timezone
+from django.db.models import Sum, F
+from orders.models import Order, OrderItem
 
 
 
@@ -18,7 +20,7 @@ import requests
 def dashboard(request):
     # Get products and balances as before
     products = Product.objects.all()
-    balances = Product.get_total_balances()  # Fetch total balances
+    balances = Product.get_total_balances()  # Assuming you have a custom method to calculate total balances
 
     # NewsAPI API Key (replace with your actual API key)
     api_key = 'b65d393754a8465eb261fd03b1255b3b'
@@ -30,17 +32,165 @@ def dashboard(request):
 
     if response.status_code == 200 and 'articles' in data:
         # Extracting the top 5 news headlines
-        headlines = [{'title': article['title'], 'image': article.get('urlToImage', '') , 'url': article['url']} for article in data['articles'][:5]]
+        headlines = [{'title': article['title'], 'image': article.get('urlToImage', ''), 'url': article['url']} for article in data['articles'][:5]]
     else:
         headlines = []
 
-    # Pass the products and news to the template
+    # Get today's date
+    today = timezone.now().date()
+
+    ## Filter OrderItems for today and calculate the total sales amount
+    total_sales_today = OrderItem.objects.filter(
+        order__created__year=today.year,
+        order__created__month=today.month,
+        order__created__day=today.day
+    ).aggregate(
+        total_sales=Sum(F('price') * F('quantity'))  # Multiply price by quantity
+    )['total_sales'] or 0  # Default to 0 if no orders today
+
+    # Calculate Today's Profit
+    total_profit_today = OrderItem.objects.filter(
+        order__created__year=today.year,
+        order__created__month=today.month,
+        order__created__day=today.day
+    ).aggregate(
+        total_profit=Sum((F('price') - F('product__cost_price')) * F('quantity'))  # Multiply by quantity
+    )['total_profit'] or 0  # Default to 0 if no profit today
+
+
+    # Calculate total cost price (cost_price * quantity_in_stock for each product)
+    total_cost_price = sum(product.cost_price * product.quantity_in_stock for product in products)
+
+    # Calculate total selling price (selling_price * quantity_in_stock for each product)
+    total_selling_price = sum(product.selling_price * product.quantity_in_stock for product in products)
+
+
+    # Define target amounts for sales and profit (these can be dynamic or static values)
+    target_sales = 100000  # Example target sales for the day
+    target_profit = 100000  # Example target profit for the day
+
+    target_cost_balance = 10000000000
+    target_selling_balance = 20000000000
+
+    # Calculate progress percentages
+    sales_progress_percentage = (total_sales_today / target_sales) * 100 if target_sales else 0
+    profit_progress_percentage = (total_profit_today / target_profit) * 100 if target_profit else 0
+
+    # Calculate progress percentages for cost and selling balances
+    target_cost_percentage = (total_cost_price / target_cost_balance) * 100 if target_cost_balance else 0
+    target_selling_percentage = (total_selling_price / target_selling_balance) * 100 if target_selling_balance else 0
+
+    # Ensure percentages don't exceed 100%
+    sales_progress_percentage = min(sales_progress_percentage, 100)
+    profit_progress_percentage = min(profit_progress_percentage, 100)
+
+    # Ensure percentages for cost and selling balances don't exceed 100%
+    cost_progress_percentage = min(target_cost_percentage, 100)
+    sells_progress_percentage = min(target_selling_percentage, 100)
+
+
+    # Pass the products, balances, sales, profit, and progress data to the template
     return render(request, 'content/dashboard.html', {
         'products': products,
         'total_cost_price': balances['total_cost_price'], 
         'total_selling_price': balances['total_selling_price'],
         'headlines': headlines,
+        'total_sales_today': total_sales_today,
+        'total_profit_today': total_profit_today,
+        'total_cost_price': total_cost_price,
+        'total_selling_price': total_selling_price,
+        'sales_progress_percentage': sales_progress_percentage,
+        'profit_progress_percentage': profit_progress_percentage,
+        'cost_progress_percentage': cost_progress_percentage,
+        'sells_progress_percentage': sells_progress_percentage
     })
+
+
+
+
+# def dashboard(request):
+#     # Get products and balances as before
+#     products = Product.objects.all()
+#     balances = Product.get_total_balances()  # Assuming you have a custom method to calculate total balances
+
+#     # NewsAPI API Key (replace with your actual API key)
+#     api_key = 'b65d393754a8465eb261fd03b1255b3b'
+#     url = f'https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}'
+
+#     # Fetching news from NewsAPI
+#     response = requests.get(url)
+#     data = response.json()
+
+#     if response.status_code == 200 and 'articles' in data:
+#         # Extracting the top 5 news headlines
+#         headlines = [{'title': article['title'], 'image': article.get('urlToImage', ''), 'url': article['url']} for article in data['articles'][:5]]
+#     else:
+#         headlines = []
+
+#     # Get today's date
+#     today = timezone.now().date()
+
+#     # Filter orders for today and calculate the total sales amount
+#     total_sales_today = Order.objects.filter(
+#         created__year=today.year,
+#         created__month=today.month,
+#         created__day=today.day
+#     ).aggregate(
+#         total_sales=Sum('items__price')  # Summing the price of all items in today's orders
+#     )['total_sales'] or 0  # Default to 0 if no orders today
+
+#     # Calculate progress percentage (if you have a sales target)
+#     sales_target = 100000  # Example target, adjust based on your requirements
+#     progress_percentage = (total_sales_today / sales_target) * 100 if sales_target else 0
+
+#     # Pass the products, balances, news, and sales data to the template
+#     return render(request, 'content/dashboard.html', {
+#         'products': products,
+#         'total_cost_price': balances['total_cost_price'], 
+#         'total_selling_price': balances['total_selling_price'],
+#         'headlines': headlines,
+#         'total_sales_today': total_sales_today,
+#         'progress_percentage': progress_percentage,
+#     })
+
+
+
+# def dashboard(request):
+#     # Get products and balances as before
+#     products = Product.objects.all()
+#     balances = Product.get_total_balances()  # Fetch total balances
+
+#     # NewsAPI API Key (replace with your actual API key)
+#     api_key = 'b65d393754a8465eb261fd03b1255b3b'
+#     url = f'https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}'
+
+#     # Fetching news from NewsAPI
+#     response = requests.get(url)
+#     data = response.json()
+
+#     if response.status_code == 200 and 'articles' in data:
+#         # Extracting the top 5 news headlines
+#         headlines = [{'title': article['title'], 'image': article.get('urlToImage', '') , 'url': article['url']} for article in data['articles'][:5]]
+#     else:
+#         headlines = []
+
+#     # Get today's date
+#     today = timezone.now().date()
+
+#     # Filter sales for today and calculate the total sales amount
+#     total_sales_today = Product.objects.filter(date__date=today).aggregate(
+#         total_sales=Sum('selling_price')  # or 'total_price', depending on your field
+#     )['total_sales'] or 0  # Default to 0 if no sales today
+
+
+#     # Pass the products and news to the template
+#     return render(request, 'content/dashboard.html', {
+#         'products': products,
+#         'total_cost_price': balances['total_cost_price'], 
+#         'total_selling_price': balances['total_selling_price'],
+#         'headlines': headlines,
+#         'total_sales_today':total_sales_today,
+#     })
 
 
 

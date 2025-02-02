@@ -56,29 +56,29 @@
 
     <div class="card-body">
         <div class="row">
-            <!-- Today's Sells -->
+            <!-- Total Sales Progress -->
             <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
-                        <h6 class="text-muted">Today’s Sells</h6>
-                        <h4 class="amount fw-bold text-dark" data-value="{{ total_cost_price }}">₦ 434,443.00</h4>
-                        <small class="text-muted">Total sells of today</small>
+                        <h6 class="text-muted">Total Sales Today</h6>
+                        <h4 class="amount fw-bold text-dark" data-value="{{ total_sales_today }}">₦ {{ total_sales_today|floatformat:2 }}</h4>
+                        <small class="text-muted">Total sales for today</small>
                         <div class="progress mt-2" style="height: 6px;">
-                            <div class="progress-bar bg-warning" style="width: 31%;"></div>
+                            <div class="progress-bar bg-success" style="width: {{ sales_progress_percentage }}%;"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Today's Profit -->
+            <!-- Total Profit Progress -->
             <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
-                        <h6 class="text-muted">Today’s Profit</h6>
-                        <h4 class="amount fw-bold text-dark" data-value="{{ total_cost_price }}">₦ 729,475</h4>
-                        <small class="text-muted">Total today's profit</small>
+                        <h6 class="text-muted">Total Profit Today</h6>
+                        <h4 class="amount fw-bold text-dark" data-value="{{ total_profit_today }}">₦ {{ total_profit_today|floatformat:2 }}</h4>
+                        <small class="text-muted">Total profit for today</small>
                         <div class="progress mt-2" style="height: 6px;">
-                            <div class="progress-bar bg-success" style="width: 50%;"></div>
+                            <div class="progress-bar bg-warning" style="width: {{ profit_progress_percentage }}%;"></div>
                         </div>
                     </div>
                 </div>
@@ -89,28 +89,29 @@
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
                         <h6 class="text-muted">Total Cost Price</h6>
-                        <h4 class="amount fw-bold text-dark" data-value="{{ total_cost_price }}">₦ {{ total_cost_price }}</h4>
+                        <h4 class="amount fw-bold text-dark" data-value="{{ total_cost_price }}">₦ {{ total_cost_price|floatformat:2 }}</h4>
                         <small class="text-muted">Total cost balance</small>
                         <div class="progress mt-2" style="height: 6px;">
-                            <div class="progress-bar bg-primary" style="width: 60%;"></div>
+                            <div class="progress-bar bg-primary" style="width: {{ cost_progress_percentage }}%;"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Total Sell Price -->
+            <!-- Total Selling Price -->
             <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
-                        <h6 class="text-muted">Total Sell Price</h6>
-                        <h4 class="amount fw-bold text-dark" data-value="{{ total_selling_price }}">₦ {{ total_selling_price }}</h4>
+                        <h6 class="text-muted">Total Revenue</h6>
+                        <h4 class="amount fw-bold text-dark" data-value="{{ total_selling_price }}">₦ {{ total_selling_price|floatformat:2 }}</h4>
                         <small class="text-muted">Total selling balance</small>
                         <div class="progress mt-2" style="height: 6px;">
-                            <div class="progress-bar bg-info" style="width: 40%;"></div>
+                            <div class="progress-bar bg-info" style="width: {{ sells_progress_percentage }}%;"></div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
         </div>
     </div>

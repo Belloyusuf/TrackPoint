@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{% endblock title %}
+{% block title %}{{ product.name }} Product Detail{% endblock title %}
 
 {% block content %}
 
@@ -10,31 +10,45 @@
         {% include "include/sidebar.html" %}
         <div class="main-content">
             <div class="container-fluid">
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            
-                          </div>
-                            <div class="product-detail">
-                              <div class="media">
-                                <img src="{% if product.image %}{{ product.image.url }}{% else %}
-                                {% static "img/no_image.png" %}{% endif %}" class="align-self-start mr-3 shadow" style="border-radius: 10px;" alt="...">
-                                <div class="media-body">
-                                  <h2 class="mt-0">{{ product.name }}</h2>
-                                  <h5>
-                                    <a href="{{ product.category.get_absolute_url }}">
-                                      {{ product.category }}
+                <div class="row">
+                    <!-- Product Information Section -->
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h2 class="mb-3">{{ product.name }}</h2>
+                                <h5 class="text-muted mb-3">
+                                    <a href="{{ product.category.get_absolute_url }}" class="text-decoration-none">
+                                        <i class="fa fa-folder-open"></i> {{ product.category }}
                                     </a>
-                                  </h5>
-                                  <p class="price">${{ product.selling_price }}</p>
-                          
-                                  <form action="{% url 'cart_app:cart-add' product.id %}" method="post">
-                                    {{ cart_product_form }}
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-success">Add to cart <span> <i class="fa fa-cart-plus"></i></span></button>
-                                  </form>
-                                 
-                                </div>
+                                </h5>
+                                <p class="price h4 text-success">${{ product.selling_price }}</p>
+                                <p class="mb-3">{{ product.description|default:"No description available" }}</p>
+
+                                <!-- Add to Cart Form -->
+                                <form action="{% url 'cart_app:cart-add' product.id %}" method="post">
+                                  {% csrf_token %}
+                                  
+                                  <!-- Quantity Input with Max Stock -->
+                                  <input type="number" id="quantityInput" name="quantity" min="1" 
+                                        class="form-control" required
+                                        data-stock="{{ product.quantity_in_stock }}"
+                                        placeholder="Enter quantity">
+
+                                  <button type="submit" id="addToCartBtn" class="btn btn-primary btn-lg">
+                                      <i class="fa fa-cart-plus"></i> Add to Cart
+                                  </button>
+                                </form>
+
+                                <!-- Stock Availability -->
+                                {% if product.quantity_in_stock > 0 %}
+                                    <div class="mt-3">
+                                        <p class="text-success">In Stock: {{ product.quantity_in_stock }} available</p>
+                                    </div>
+                                {% else %}
+                                    <div class="mt-3">
+                                        <p class="text-danger">Out of Stock</p>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -42,9 +56,39 @@
             </div>
         </div>
 
-        <!-- footer -->
+        <!-- Footer -->
         {% include "include/footer.html" %}
     </div>
 </div>
 
+
+<!-- JavaScript for Real-time Validation -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const quantityInput = document.getElementById("quantityInput");
+      const addToCartBtn = document.getElementById("addToCartBtn");
+
+      quantityInput.addEventListener("input", function () {
+          let maxStock = parseInt(quantityInput.dataset.stock);
+          let enteredQuantity = parseInt(quantityInput.value);
+
+          if (enteredQuantity > maxStock) {
+              quantityInput.style.border = "2px solid red";  // Red border for error
+              addToCartBtn.disabled = true;  // Disable button
+              
+              // SweetAlert Error Message
+              Swal.fire({
+                  icon: "error",
+                  title: "Stock Limit Exceeded",
+                  text: `Only ${maxStock} items available in stock.`,
+                  timer: 3000,
+                  showConfirmButton: false
+              });
+          } else {
+              quantityInput.style.border = "";  // Reset border
+              addToCartBtn.disabled = false;  // Enable button
+          }
+      });
+  });
+</script>
 {% endblock content %}

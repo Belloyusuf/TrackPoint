@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %} Checkout {% endblock title %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Order Summary Section -->
+                    <div class="col-md-6">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-primary text-white">
+                                <h4 class="mb-0">Your Order <i class="fa fa-cart-arrow-down"></i></h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in cart %}
+                                        <tr>
+                                            <td>{{ item.product.name }}</td>
+                                            <td>{{ item.quantity }}</td>
+                                            <td>${{ item.total_price }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="bg-light">
+                                            <td colspan="2"><strong>Grand Total:</strong></td>
+                                            <td><strong>${{ cart.get_total_price }}</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Checkout Form Section -->
+                    <div class="col-md-6">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-success text-white">
+                                <h4 class="mb-0">Billing Details</h4>
+                            </div>
+                            <div class="card-body">
+                                <form method="post" class="order-form">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        {{ form|crispy }}
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="fa fa-check-circle"></i> Place Order
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        {% include "include/footer.html" %}
+    </div>
+</div>
+
+{% endblock content %}
