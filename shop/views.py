@@ -27,13 +27,12 @@ class CreateCategory(SweetifySuccessMixin, CreateView):
 # List Categories
 class ListCategories(ListView):
     model = Category
-    context_object_name = 'categories'
-    template_name = 'content/category_list.html'
+    context_object_name = "categories"
+    template_name = "content/category_list.html"
 
     def get_queryset(self):
-        """ Return Total product in each category """
-        queryset = super().get_queryset().annotate(total_product=Count("products"), total_amount=Sum("products"))
-        return queryset
+        """Return all categories with total product count."""
+        return Category.objects.annotate(total_products=Count("products"))
     
 
 # Update Categories
@@ -87,24 +86,24 @@ class ProductListView(ListView):
     template_name = 'content/product_list.html'
     context_object_name = 'products'
     
-    def get_queryset(self):
-        """Filter products based on the category slug (if provided)."""
-        category_slug = self.kwargs.get('category_slug')
-        queryset = Product.objects.all()
+    # def get_queryset(self):
+    #     """Filter products based on the category slug (if provided)."""
+    #     category_slug = self.kwargs.get('category_slug')
+    #     queryset = Product.objects.all()
         
-        if category_slug:
-            category = get_object_or_404(Category, slug=category_slug)
-            queryset = queryset.filter(category=category)
+    #     if category_slug:
+    #         category = get_object_or_404(Category, slug=category_slug)
+    #         queryset = queryset.filter(category=category)
         
-        return queryset
+    #     return queryset
 
-    def get_context_data(self, **kwargs):
-        """ Add categories and selected category to the context. """
-        context = super().get_context_data(**kwargs)
-        category_slug = self.kwargs.get('category_slug')
-        context['categories'] = Category.objects.all()
-        context['category'] = get_object_or_404(Category, slug=category_slug) if category_slug else None
-        return context
+    # def get_context_data(self, **kwargs):
+    #     """ Add categories and selected category to the context. """
+    #     context = super().get_context_data(**kwargs)
+    #     category_slug = self.kwargs.get('category_slug')
+    #     context['categories'] = Category.objects.all()
+    #     context['category'] = get_object_or_404(Category, slug=category_slug) if category_slug else None
+    #     return context
     
 
 

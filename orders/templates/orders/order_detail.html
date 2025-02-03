@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Order Details - #{{ order.id }}</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5>Customer Type: <strong>{{ order.customer_type }}</strong></h5>
+            <h5>Payment Method: <strong>{{ order.payment_method }}</strong></h5>
+            <h5>Order Status: 
+                {% if order.paid %}
+                    <span class="badge bg-success">Paid</span>
+                {% else %}
+                    <span class="badge bg-danger">Unpaid</span>
+                {% endif %}
+            </h5>
+            <h5>Created: <strong>{{ order.created|date:"M d, Y H:i" }}</strong></h5>
+        </div>
+    </div>
+
+    <h3 class="my-3">Ordered Items</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>₦ {{ item.price }}</td>
+                <td>₦ {{ item.get_cost }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4 class="text-end mt-3">Total Cost: <strong>₦ {{ order.get_total_cost|floatformat:2 }}</strong></h4>
+
+    <a href="{% url 'order_app:order-list' %}" class="btn btn-secondary mt-3">
+        <i class="fa fa-arrow-left"></i> Back to Orders
+    </a>
+</div>
+{% endblock %}

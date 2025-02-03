@@ -35,3 +35,7 @@ class ProductForm(forms.ModelForm):
                 raise ValidationError("Selling price must be greater than cost price.")
 
             return cleaned_data
+        
+
+
+

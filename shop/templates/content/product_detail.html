@@ -1,58 +1,71 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{{ product.name }} Product Detail{% endblock title %}
+{% block title %}{{ product.name }} - Product Detail{% endblock title %}
 
 {% block content %}
-
 <div class="wrapper">
+    <!-- Navbar -->
     {% include "include/navbar.html" %}
+
     <div class="page-wrap">
+        <!-- Sidebar -->
         {% include "include/sidebar.html" %}
+
         <div class="main-content">
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- Product Information Section -->
-                    <div class="col-lg-8 mx-auto">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h2 class="mb-3">{{ product.name }}</h2>
-                                <h5 class="text-muted mb-3">
-                                    <a href="{{ product.category.get_absolute_url }}" class="text-decoration-none">
-                                        <i class="fa fa-folder-open"></i> {{ product.category }}
-                                    </a>
-                                </h5>
-                                <p class="price h4 text-success">${{ product.selling_price }}</p>
-                                <p class="mb-3">{{ product.description|default:"No description available" }}</p>
+            <div class="container my-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <div class="card shadow-lg border-0 rounded-3">
+                            <div class="row no-gutters">
+                                <!-- Product Image -->
+                                {% comment %} <div class="col-md-5">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded-left">
+                                </div> {% endcomment %}
 
-                                <!-- Add to Cart Form -->
-                                <form action="{% url 'cart_app:cart-add' product.id %}" method="post">
-                                  {% csrf_token %}
-                                  
-                                  <!-- Quantity Input with Max Stock -->
-                                  <input type="number" id="quantityInput" name="quantity" min="1" 
-                                        class="form-control" required
-                                        data-stock="{{ product.quantity_in_stock }}"
-                                        placeholder="Enter quantity">
+                                <!-- Product Details -->
+                                <div class="col-md-7">
+                                    <div class="card-body p-4">
+                                        <h2 class="mb-3">{{ product.name }}</h2>
+                                        <h5 class="text-muted">
+                                            <a href="{{ product.category.get_absolute_url }}" class="text-decoration-none text-primary">
+                                                <i class="fa fa-folder-open"></i> {{ product.category }}
+                                            </a>
+                                        </h5>
 
-                                  <button type="submit" id="addToCartBtn" class="btn btn-primary btn-lg">
-                                      <i class="fa fa-cart-plus"></i> Add to Cart
-                                  </button>
-                                </form>
+                                        <p class="h4 text-success fw-bold">${{ product.selling_price }}</p>
+                                        <p class="text-muted">{{ product.description|default:"No description available" }}</p>
 
-                                <!-- Stock Availability -->
-                                {% if product.quantity_in_stock > 0 %}
-                                    <div class="mt-3">
-                                        <p class="text-success">In Stock: {{ product.quantity_in_stock }} available</p>
+                                        <!-- Stock Info -->
+                                        {% if product.quantity_in_stock > 0 %}
+                                            <p class="text-success"><i class="fa fa-check-circle"></i> In Stock: {{ product.quantity_in_stock }} available</p>
+                                        {% else %}
+                                            <p class="text-danger"><i class="fa fa-times-circle"></i> Out of Stock</p>
+                                        {% endif %}
+
+                                        <!-- Add to Cart Form -->
+                                        <form action="{% url 'cart_app:cart-add' product.id %}" method="post">
+                                            {% csrf_token %}
+                                            
+                                            <div class="d-flex align-items-center mb-3">
+                                                <input type="number" id="quantityInput" name="quantity" min="1"
+                                                       class="form-control w-25 me-2 text-center"
+                                                       data-stock="{{ product.quantity_in_stock }}" required placeholder="Qty">
+                                                
+                                                <button type="submit" id="addToCartBtn" class="btn btn-primary btn-lg ml-5">
+                                                    <i class="fa fa-cart-plus"></i> Add to Cart
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <a href="{% url 'cart_app:cart-detail' %}" class="btn btn-outline-secondary mt-2">
+                                            <i class="fa fa-shopping-cart"></i> View Cart
+                                        </a>
                                     </div>
-                                {% else %}
-                                    <div class="mt-3">
-                                        <p class="text-danger">Out of Stock</p>
-                                    </div>
-                                {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>  
             </div>
         </div>
 
@@ -61,34 +74,30 @@
     </div>
 </div>
 
-
-<!-- JavaScript for Real-time Validation -->
+<!-- JavaScript for Quantity Validation -->
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-      const quantityInput = document.getElementById("quantityInput");
-      const addToCartBtn = document.getElementById("addToCartBtn");
+    document.addEventListener("DOMContentLoaded", function () {
+        const quantityInput = document.getElementById("quantityInput");
+        const addToCartBtn = document.getElementById("addToCartBtn");
+        const maxStock = parseInt(quantityInput.dataset.stock);
 
-      quantityInput.addEventListener("input", function () {
-          let maxStock = parseInt(quantityInput.dataset.stock);
-          let enteredQuantity = parseInt(quantityInput.value);
-
-          if (enteredQuantity > maxStock) {
-              quantityInput.style.border = "2px solid red";  // Red border for error
-              addToCartBtn.disabled = true;  // Disable button
-              
-              // SweetAlert Error Message
-              Swal.fire({
-                  icon: "error",
-                  title: "Stock Limit Exceeded",
-                  text: `Only ${maxStock} items available in stock.`,
-                  timer: 3000,
-                  showConfirmButton: false
-              });
-          } else {
-              quantityInput.style.border = "";  // Reset border
-              addToCartBtn.disabled = false;  // Enable button
-          }
-      });
-  });
+        quantityInput.addEventListener("input", function () {
+            if (parseInt(quantityInput.value) > maxStock) {
+                quantityInput.style.border = "2px solid red";
+                addToCartBtn.disabled = true;
+                Swal.fire({
+                    icon: "error",
+                    title: "Stock Limit Exceeded!",
+                    text: `Only ${maxStock} items available.`,
+                    timer: 2500,
+                    showConfirmButton: false
+                });
+            } else {
+                quantityInput.style.border = "";
+                addToCartBtn.disabled = false;
+            }
+        });
+    });
 </script>
+
 {% endblock content %}
