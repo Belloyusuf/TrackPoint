@@ -11,12 +11,40 @@
         
         <div class="main-content">
             <div class="container-fluid">
+                 <!-- Item Icon Header -->
+                 <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="ik ik-shopping-bag bg-blue"></i>
+                                <div class="d-inline">
+                                    <h5>Order List</h5>
+                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Order List</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Item Icon Header -->
+
                 <div class="row">
                     <!-- Order Summary Section -->
                     <div class="col-md-12">
                         <div class="card shadow-sm">
                             <div class="card-body">
-                                <h4 class="my-4 text-center">All Orders <i class="fa fa-shopping-bag"></i></h4>
                                 
                                 <!-- Filter Form -->
                                 <form method="get" class="mb-4">
@@ -43,13 +71,13 @@
                                         </div>
                                     </div>
                                 </form>
-                                
+                                <hr/>
                                 <!-- Orders Table -->
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-striped">
+                                    <table id="advanced_table" class="table table-bordered table-striped">
                                         <thead class="table-dark">
                                             <tr>
-                                                <th>Order ID</th>
+                                                <th style="padding-left: 2rem; white-space: normal; overflow-wrap: break-word;">Order ID</th>
                                                 <th>Customer Type</th>
                                                 <th>Payment Method</th>
                                                 <th>Created</th>
@@ -61,7 +89,7 @@
                                         <tbody>
                                             {% for order in orders %}
                                             <tr>
-                                                <td>#{{ order.id }}</td>
+                                                <td style="padding-left: 2rem; white-space: normal; overflow-wrap: break-word;"># {{ order.id }}</td>
                                                 <td>{{ order.customer_type }}</td>
                                                 <td>{{ order.payment_method }}</td>
                                                 <td>{{ order.created|date:"M d, Y H:i" }}</td>

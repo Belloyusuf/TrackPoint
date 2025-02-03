@@ -126,15 +126,31 @@ class Product(TimeStampedModel):
 
 
     def increase_stock(self, quantity):
+        previous_quantity = self.quantity_in_stock
         self.quantity_in_stock += quantity
         self.save()
-
+        StockHistory.objects.create(
+            product=self,
+            change_type='add',
+            quantity_changed=quantity,
+            previous_quantity=previous_quantity,
+            new_quantity=self.quantity_in_stock
+        )
 
     def decrease_stock(self, quantity):
         if quantity > self.quantity_in_stock:
             raise ValueError("Insufficient stock!")
+        previous_quantity = self.quantity_in_stock
         self.quantity_in_stock -= quantity
         self.save()
+        StockHistory.objects.create(
+            product=self,
+            change_type='remove',
+            quantity_changed=quantity,
+            previous_quantity=previous_quantity,
+            new_quantity=self.quantity_in_stock
+        )
+
 
 
     # Return Total Balance of selling and cost price
@@ -150,6 +166,18 @@ class Product(TimeStampedModel):
     def __str__(self):
         return self.name
 
+
+
+class StockHistory(models.Model):
+    product = models.ForeignKey(Product, related_name='stock_history', on_delete=models.CASCADE)
+    change_type = models.CharField(max_length=10, choices=[('add', 'Added'), ('remove', 'Removed')])
+    quantity_changed = models.IntegerField()
+    previous_quantity = models.IntegerField()
+    new_quantity = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.change_type} ({self.quantity_changed}) on {self.timestamp}"
 
 
 

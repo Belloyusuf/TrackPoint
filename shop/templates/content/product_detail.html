@@ -12,9 +12,37 @@
         {% include "include/sidebar.html" %}
 
         <div class="main-content">
-            <div class="container my-5">
+            <div class="container-fluid">
+                 <!-- Item Icon Header -->
+                 <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="ik ik-shopping-bag bg-blue"></i>
+                                <div class="d-inline">
+                                    <h5>Order</h5>
+                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">order</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Item Icon Header -->
                 <div class="row justify-content-center">
-                    <div class="col-md-10">
+                    <div class="col">
                         <div class="card shadow-lg border-0 rounded-3">
                             <div class="row no-gutters">
                                 <!-- Product Image -->
@@ -24,7 +52,7 @@
 
                                 <!-- Product Details -->
                                 <div class="col-md-7">
-                                    <div class="card-body p-4">
+                                    <div class="card-body">
                                         <h2 class="mb-3">{{ product.name }}</h2>
                                         <h5 class="text-muted">
                                             <a href="{{ product.category.get_absolute_url }}" class="text-decoration-none text-primary">
@@ -60,6 +88,9 @@
                                         <a href="{% url 'cart_app:cart-detail' %}" class="btn btn-outline-secondary mt-2">
                                             <i class="fa fa-shopping-cart"></i> View Cart
                                         </a>
+
+
+                                        <a href="{% url 'product_app:product-stock-history' product.id %}" class="btn btn-info">View Stock History</a>
                                     </div>
                                 </div>
                             </div>

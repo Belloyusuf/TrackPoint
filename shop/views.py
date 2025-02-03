@@ -149,3 +149,16 @@ class DeleteProduct(SweetifySuccessMixin, DeleteView):
     template_name = 'content/delete_product.html'
     success_message = 'Product Deleted Successfully'
     success_url = 'product_app:dashboard'
+
+
+
+from .models import Product, StockHistory
+
+def product_stock_history(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    stock_history = StockHistory.objects.filter(product=product).order_by('-timestamp')
+
+    return render(request, 'content/stock_history.html', {
+        'product': product,
+        'stock_history': stock_history
+    })

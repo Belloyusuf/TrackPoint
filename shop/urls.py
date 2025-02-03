@@ -20,4 +20,8 @@ urlpatterns = [
     path("list-category/", views.ListCategories.as_view(), name="list-category"),
     path("update-category/", views.UpdateCategories.as_view(), name="update-category"),
     path("delete-category/", views.DeleteCategories.as_view(), name="delete-category"),
+
+
+    # Stock History
+    path('product/<int:product_id>/stock-history/', views.product_stock_history, name='product-stock-history'),
 ]

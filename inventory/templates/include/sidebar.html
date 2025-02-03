@@ -72,21 +72,7 @@
                         <a href="pages/ui/badges.html" class="menu-item">Track Purchase Orders</a>
                     </div>
                 </div>
-                <!-- Sales -->
-                <div class="nav-lavel">Sales</div>
-                <!-- View Sales -->
-                <div class="nav-item">
-                    <a href="{% url 'order_app:order-list' %}"><i class="ik ik-credit-card"></i><span>View Sales</span></a>
-                </div>
-                <!-- Create Sales Order -->
-                <div class="nav-item">
-                    <a href="pages/table-datatable.html"><i class="ik ik-check-circle"></i><span>Create Sales Orders</span></a>
-                </div>
-                <!-- Sales Reports -->
-                <div class="nav-item">
-                    <a href="pages/table-datatable.html"><i class="ik ik-calendar"></i><span>Sales Reports</span></a>
-                </div>
-
+               
                 <!-- Customers  -->
                 <div class="nav-lavel">Customers</div>
                 <div class="nav-item">
@@ -105,11 +91,11 @@
                 <div class="nav-lavel">Reports</div>
                 <!-- Stock Reports -->
                 <div class="nav-item">
-                    <a href="pages/calendar.html"><i class="ik ik-calendar"></i><span>Stock Reports</span></a>
+                    {% comment %} <a href="{% url 'product_app:product_stock_history' product.id %}" i class="ik ik-calendar"></i><span>Stock Reports</span></a> {% endcomment %}
                 </div>
                 <!-- Sales Reports -->
                 <div class="nav-item">
-                    <a href="pages/taskboard.html"><i class="ik ik-calendar"></i><span>Sales Reports</span></a>
+                    <a href="{% url 'order_app:order-list' %}"><i class="ik ik-calendar"></i><span>Sales Reports</span></a>
                 </div>
                 <!-- Purchase Reports -->
                 <div class="nav-item">
