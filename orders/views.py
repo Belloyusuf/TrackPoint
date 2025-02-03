@@ -78,7 +78,6 @@ def order_invoice(request, order_id):
 
 
 
-
 # Seles/Order Record
 def order_list(request):
     form = OrderFilterForm(request.GET)
@@ -102,3 +101,4 @@ def order_list(request):
 def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     return render(request, "orders/order_detail.html", {"order":order})
+

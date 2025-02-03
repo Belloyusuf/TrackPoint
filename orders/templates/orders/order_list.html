@@ -1,97 +1,101 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-{% block title %} Checkout {% endblock title %}
+{% block title %} Orders-History {% endblock title %}
 
 {% block content %}
-
 <div class="wrapper">
     {% include "include/navbar.html" %}
+    
     <div class="page-wrap">
         {% include "include/sidebar.html" %}
+        
         <div class="main-content">
             <div class="container-fluid">
                 <div class="row">
                     <!-- Order Summary Section -->
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card shadow-sm">
                             <div class="card-body">
-                             
-                                    <h2 class="my-4">All Orders <i class="fa fa-shopping-bag"></i></h2>
-                                    
-                                    <!-- Filter Form -->
-                                    <form method="get" class="mb-4">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                {{ form.customer_type }}
-                                            </div>
-                                            <div class="col-md-3">
-                                                {{ form.payment_method }}
-                                            </div>
-                                            <div class="col-md-2">
-                                                {{ form.start_date }}
-                                            </div>
-                                            <div class="col-md-2">
-                                                {{ form.end_date }}
-                                            </div>
-                                            <div class="col-md-2">
-                                                <button type="submit" class="btn btn-primary">Filter</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                <h4 class="my-4 text-center">All Orders <i class="fa fa-shopping-bag"></i></h4>
                                 
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-striped">
-                                            <thead class="table-dark">
-                                                <tr>
-                                                    <th>Order ID</th>
-                                                    <th>Customer Type</th>
-                                                    <th>Payment Method</th>
-                                                    <th>Created</th>
-                                                    <th>Status</th>
-                                                    <th>Total Cost</th>
-                                                    <th>Details</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for order in orders %}
-                                                <tr>
-                                                    <td>#{{ order.id }}</td>
-                                                    <td>{{ order.customer_type }}</td>
-                                                    <td>{{ order.payment_method }}</td>
-                                                    <td>{{ order.created|date:"M d, Y H:i" }}</td>
-                                                    <td>
-                                                        {% if order.paid %}
-                                                            <span class="badge bg-success">Paid</span>
-                                                        {% else %}
-                                                            <span class="badge bg-danger">Unpaid</span>
-                                                        {% endif %}
-                                                    </td>
-                                                    <td>₦ {{ order.get_total_cost|floatformat:2 }}</td>
-                                                    <td>
-                                                        <a href="{% url 'order_app:order-detail' order.id %}" class="btn btn-primary btn-sm">
-                                                            <i class="fa fa-eye"></i> View
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                {% empty %}
-                                                <tr>
-                                                    <td colspan="7" class="text-center">No orders available.</td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
+                                <!-- Filter Form -->
+                                <form method="get" class="mb-4">
+                                    <div class="row g-3">
+                                        <div class="col-md-3">
+                                            <label for="customer_type" class="form-label">Customer Type</label>
+                                            {{ form.customer_type }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="payment_method" class="form-label">Payment Method</label>
+                                            <br />
+                                            {{ form.payment_method }}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="start_date" class="form-label">Start Date</label>
+                                            {{ form.start_date }}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="end_date" class="form-label">End Date</label>
+                                            {{ form.end_date }}
+                                        </div>
+                                        <div class="col-md-2 d-flex align-items-end">
+                                            <button type="submit" class="btn btn-primary w-100">Filter</button>
+                                        </div>
                                     </div>
-                             
+                                </form>
+                                
+                                <!-- Orders Table -->
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Customer Type</th>
+                                                <th>Payment Method</th>
+                                                <th>Created</th>
+                                                <th>Status</th>
+                                                <th>Total Cost</th>
+                                                <th>Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order in orders %}
+                                            <tr>
+                                                <td>#{{ order.id }}</td>
+                                                <td>{{ order.customer_type }}</td>
+                                                <td>{{ order.payment_method }}</td>
+                                                <td>{{ order.created|date:"M d, Y H:i" }}</td>
+                                                <td>
+                                                    {% if order.paid %}
+                                                        <span class="badge bg-success">Paid</span>
+                                                    {% else %}
+                                                        <span class="badge bg-danger">Unpaid</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>₦ {{ order.get_total_cost|floatformat:2 }}</td>
+                                                <td>
+                                                    <a href="{% url 'order_app:order-detail' order.id %}" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-eye"></i> View
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="7" class="text-center">No orders available.</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>    
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        
         <!-- Footer -->
         {% include "include/footer.html" %}
     </div>
 </div>
-
 {% endblock content %}
