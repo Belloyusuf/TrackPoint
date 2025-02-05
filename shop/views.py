@@ -30,9 +30,9 @@ class ListCategories(ListView):
     context_object_name = "categories"
     template_name = "content/category_list.html"
 
-    def get_queryset(self):
-        """Return all categories with total product on each."""
-        return Category.objects.annotate(total_products=Count("products"))
+    # def get_queryset(self):
+    #     """Return all categories with total product on each."""
+    #     return Category.objects.annotate(total_products=Count("products"))
     
 
 # Update Categories
@@ -56,8 +56,15 @@ class ShelfCreateView(SweetifySuccessMixin, CreateView):
     model = Shelf
     fields = "__all__"
     success_message = "Shelf Created"
-    success_url = reverse_lazy('product_app:create-shelf')
+    success_url = reverse_lazy('product_app:shelf-create')
     template_name = "content/shelf_create.html"
+
+    # Check if shelf exist
+    def form_valid(self, form):
+        if Shelf.objects.filter(name=form.cleaned_data.get("name")).exists():
+            sweetify.error(self.request, "Shelf already exists")
+            return self.form_valid(form)
+        return super().form_valid(form)
 
 
 # Update Shelf
@@ -73,11 +80,11 @@ class ShelfUpdateView(SweetifySuccessMixin, UpdateView):
 class ShelfListView(SweetifySuccessMixin, ListView):
     model = Shelf
     context_object_name = 'shelves'
-    template_name = "content/shelf_create.html"
+    template_name = "content/shelf_list.html"
 
-    def get_queryset(self):
-        """Return all shelf with total product on each."""
-        return Category.objects.annotate(total_products=Count("products"))
+    # def get_queryset(self):
+    #     """Return all shelf with total product on each."""
+    #     return Category.objects.annotate(total_products=Count("products"))
 
 
 # Create Product
