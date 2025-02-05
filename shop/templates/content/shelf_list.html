@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load humanize %}
+
 {% block title %}shelves-list{% endblock title %}
 
 {% block content %}
@@ -51,15 +53,23 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Product on Shelf</th>
-                                    <th>Balance</th>
+                                    <th>Revenue</th>
+                                    <th>Action</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for shelf in shelves %}
                                 </tr>
                                     <td>{{ shelf.name }}</td>
-                                    <td>9874</td>
-                                    <td>N 238,980.4</td>
+                                    <td>{{ shelf.count_products_on_shelf }}</td>
+                                    <td>₦ {{ shelf.total_selling_price|intcomma }}</td>
+                                    <td>
+                                        <a href="{% url 'product_app:shelf-update' shelf.id %}" class="text-primary">
+                                            <i class="ik ik-edit f-16"></i>
+                                        </a>
+                                    </td>
+                                    <td></td>
                                 </tr>
                                 {% endfor %}    
                             </tbody>

@@ -50,16 +50,18 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>RPC</th>
+                                    <th>Products In Categories</th>
                                     <th>Balance</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for category in categories %}
                                 </tr>
                                     <td>{{ category.name }}</td>
-                                    <td>{{ category.total_product }}</td>
-                                    <td>N {{ category.total_amount }}</td>
+                                    <td>{{ category.count_products_on_category }}</td>
+                                    <td>N {{ category.total_selling_price }}</td>
+                                    <td></td>
                                 </tr>
                                 {% endfor %}    
                             </tbody>

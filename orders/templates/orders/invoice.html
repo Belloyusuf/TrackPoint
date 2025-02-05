@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block title %} Invoice #{{ order.id }} {% endblock title %}
 
 {% block content %}
@@ -34,8 +35,8 @@
                     <tr>
                         <td style="padding: 2px 0;">{{ item.product.name }}</td>
                         <td style="padding: 2px 0; text-align: center;">{{ item.quantity }}</td>
-                        <td style="padding: 2px 0; text-align: right;">${{ item.price }}</td>
-                        <td style="padding: 2px 0; text-align: right;">${{ item.get_cost }}</td>
+                        <td style="padding: 2px 0; text-align: right;">₦{{ item.price|intcomma }}</td>
+                        <td style="padding: 2px 0; text-align: right;">₦{{ item.get_cost|intcomma  }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -43,7 +44,7 @@
         </div>
 
         <div style="margin-top: 5px; text-align: right;">
-            <strong>Grand Total: ${{ order.get_total_cost }}</strong>
+            <strong>Grand Total: ₦{{ order.get_total_cost|intcomma  }}</strong>
         </div>
 
         <br>

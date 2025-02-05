@@ -44,8 +44,17 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    # Return the revenue of products on shelves
+    def total_selling_price(self):
+        return self.products.aggregate(total_price=Sum('selling_price'))['total_price'] or 0
+
+    # Count the number of products are on shelves
+    def count_products_on_category(self):
+        return self.products.count()
 
 
+    
 
 
 # Shelf Model
@@ -57,6 +66,14 @@ class Shelf(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    # Return the revenue of products on shelves
+    def total_selling_price(self):
+        return self.products.aggregate(total_price=Sum('selling_price'))['total_price'] or 0
+
+    # Count the number of products are on shelves
+    def count_products_on_shelf(self):
+        return self.products.count()
 
 
 # Product Model
@@ -77,6 +94,7 @@ class Product(TimeStampedModel):
     shelf = models.ForeignKey(
         Shelf,
         verbose_name="Shelf",
+        related_name="products",
         on_delete=models.SET_NULL,
         blank=True,
         null=True
@@ -162,6 +180,7 @@ class Product(TimeStampedModel):
             'total_cost_price': total_cost_price,
             'total_selling_price': total_selling_price
         }
+    
 
     def __str__(self):
         return self.name

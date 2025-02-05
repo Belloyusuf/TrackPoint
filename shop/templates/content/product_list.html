@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load humanize %}
+
 {% block title %}Product List{% endblock title %}
 
 {% block content %}
@@ -69,8 +71,8 @@
                                             <td style="padding-left: 2rem; white-space: normal; overflow-wrap: break-word;">{{ product.name }}</td>
                                             <td>{{ product.category }}</td>
                                             <td>{{ product.shelf }}</td>
-                                            <td>₦ {{ product.cost_price }}</td>
-                                            <td>₦ {{ product.selling_price }}</td>
+                                            <td>₦ {{ product.cost_price|intcomma }}</td>
+                                            <td>₦ {{ product.selling_price|intcomma }}</td>
                                             <td>
                                                 {% if product.quantity_in_stock > 0 %}
                                                     {{ product.quantity_in_stock }}
