@@ -49,7 +49,7 @@ class Category(models.Model):
 
 
 # Shelf Model
-class Shelf(models.Model):
+class Shelf(TimeStampedModel):
     """
     Represents shelves where products are stored.
     """
