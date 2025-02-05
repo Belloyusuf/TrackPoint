@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}update-shelf{% endblock title %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <!-- Item Icon Header -->
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="ik ik-layers bg-blue"></i>
+                                <div class="d-inline">
+                                    <h5>Update Shelf</h5>
+                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Shelf</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Item Icon Header -->
+                <div class="card">
+                    <div class="card-header row">
+                        <div class="col col-sm-3">
+                          <!-- header -->
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button class="btn btn-block btn-sm btn-success" id="submit-btn">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        {% include "include/footer.html" %}
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}shelves-list{% endblock title %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <!-- Item Icon Header -->
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="ik ik-layers bg-blue"></i>
+                                <div class="d-inline">
+                                    <h5>Shelves</h5>
+                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Shelves</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Item Icon Header -->
+
+                <div class="card">
+                    <div class="card-header row">
+                        <div class="col col-sm-3">
+                            <a href="{% url 'product_app:create-shelf' %}" class="btn btn-sm btn-primary"> <i class="ik ik-plus"></i> New Shelf</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <table id="advanced_table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Product on Shelf</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for shelf in shelves %}
+                                </tr>
+                                    <td>{{ shelf.name }}</td>
+                                    <td>9874</td>
+                                    <td>N 238,980.4</td>
+                                </tr>
+                                {% endfor %}    
+                            </tbody>
+                        </table>                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        {% include "include/footer.html" %}
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from . models import Product, Category, Shelf
+from . models import Product, Category, Shelf, StockHistory
 from django.views.generic import CreateView, ListView
 from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy
@@ -31,7 +31,7 @@ class ListCategories(ListView):
     template_name = "content/category_list.html"
 
     def get_queryset(self):
-        """Return all categories with total product count."""
+        """Return all categories with total product on each."""
         return Category.objects.annotate(total_products=Count("products"))
     
 
@@ -48,7 +48,36 @@ class DeleteCategories(SweetifySuccessMixin, DeleteView):
     model = Category
     template_name = 'content/delete_category'
     success_message = 'Category deleted successfully'
-    success_url = 'product_app:dashboard'
+    success_url = reverse_lazy('product_app:dashboard')
+
+
+# Create Shelf
+class ShelfCreateView(SweetifySuccessMixin, CreateView):
+    model = Shelf
+    fields = "__all__"
+    success_message = "Shelf Created"
+    success_url = reverse_lazy('product_app:create-shelf')
+    template_name = "content/shelf_create.html"
+
+
+# Update Shelf
+class ShelfUpdateView(SweetifySuccessMixin, UpdateView):
+    model = Shelf
+    fields = "__all__"
+    success_message = "Shelf Update"
+    success_url = reverse_lazy('product_app:update-shelf')
+    template_name = "content/shelf_update.html"
+
+
+# List Shelves
+class ShelfListView(SweetifySuccessMixin, ListView):
+    model = Shelf
+    context_object_name = 'shelves'
+    template_name = "content/shelf_create.html"
+
+    def get_queryset(self):
+        """Return all shelf with total product on each."""
+        return Category.objects.annotate(total_products=Count("products"))
 
 
 # Create Product
@@ -86,40 +115,10 @@ class ProductListView(ListView):
     template_name = 'content/product_list.html'
     context_object_name = 'products'
     
-    # def get_queryset(self):
-    #     """Filter products based on the category slug (if provided)."""
-    #     category_slug = self.kwargs.get('category_slug')
-    #     queryset = Product.objects.all()
-        
-    #     if category_slug:
-    #         category = get_object_or_404(Category, slug=category_slug)
-    #         queryset = queryset.filter(category=category)
-        
-    #     return queryset
-
-    # def get_context_data(self, **kwargs):
-    #     """ Add categories and selected category to the context. """
-    #     context = super().get_context_data(**kwargs)
-    #     category_slug = self.kwargs.get('category_slug')
-    #     context['categories'] = Category.objects.all()
-    #     context['category'] = get_object_or_404(Category, slug=category_slug) if category_slug else None
-    #     return context
     
 
 
-
-# Product detail
-# def product_detail(request, id, slug):
-#     product = get_object_or_404(Product,
-#                                 id=id,
-#                                 slug=slug)
-#     cart_product_form = CartAddProductForm()
-
-#     return render(request,
-#                   'content/product_detail.html',
-#                   {'product': product,
-#                    'cart_product_form': cart_product_form})
-
+# Product Details
 def product_detail(request, id, slug):
     product = get_object_or_404(Product, id=id, slug=slug)
     cart_product_form = CartAddProductForm(product=product)  # Pass product to form
@@ -142,7 +141,6 @@ class UpdateProducts(SweetifySuccessMixin, UpdateView):
         return reverse_lazy('product_app:update-product', args=[self.object.id, self.object.slug])
 
 
-
 # Delete Products
 class DeleteProduct(SweetifySuccessMixin, DeleteView):
     model = Product
@@ -152,7 +150,6 @@ class DeleteProduct(SweetifySuccessMixin, DeleteView):
 
 
 
-from .models import Product, StockHistory
 
 def product_stock_history(request, product_id):
     product = get_object_or_404(Product, id=product_id)
