@@ -202,7 +202,7 @@ class Product(TimeStampedModel):
 
 
 
-
+# TODO  This most be deleted
 class StockHistory(models.Model):
     product = models.ForeignKey(Product, related_name='stock_history', on_delete=models.CASCADE)
     change_type = models.CharField(max_length=10, choices=[('add', 'Added'), ('remove', 'Removed')])
@@ -270,3 +270,18 @@ class StockAdjustmentHistory(models.Model):
         verbose_name = "Stock Adjustment History"
         verbose_name_plural = "Stock Adjustment Histories"
         ordering = ['-date']
+
+
+
+# Stock Transfer
+class StockTransfer(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    source_shelf = models.ForeignKey(Shelf, related_name='source_shelf', on_delete=models.SET_NULL, null=True)
+    destination_shelf = models.ForeignKey(Shelf, related_name='destination_shelf', on_delete=models.SET_NULL, null=True)
+    quantity_transferred = models.PositiveIntegerField()
+    reason = models.CharField(max_length=255, null=True, blank=True)
+    # transferred_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    transfer_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Transfer of {self.quantity_transferred} {self.product.name} from {self.source_shelf.name} to {self.destination_shelf.name}"

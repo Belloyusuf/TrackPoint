@@ -18,7 +18,7 @@
                             <div class="page-header-title">
                                 <i class="ik ik-list bg-blue"></i>
                                 <div class="d-inline">
-                                    <h5>Stock Adjustment</h5>
+                                    <h5>Stock Adjustment and Shelf Transfer</h5>
                                     <span>Manage your Stock easily</span>
                                 </div>
                             </div>
@@ -57,6 +57,7 @@
                                         <th>Quantity</th>
                                         <th>U of M</th>
                                         <th>Adjustment</th>
+                                        <th>Shelf Transfer</th>
                                         <th>Barcode</th>
                                     </tr>
                                 </thead>
@@ -77,9 +78,16 @@
                                                 {% endif %}
                                             </td>
                                             <td>{{ product.unit_of_measurement }}</td>
+                                            <!-- Update Stock  -->
                                             <td>
                                                 <a href="{% url 'product_app:adjust_stock_product' product.id %}" class="text-primary">
-                                                    <i class="ik ik-edit f-16"></i>
+                                                    <i class="ik ik-edit f-16" title="Adjust stock"></i>
+                                                </a>
+                                            </td>
+                                            <!-- Transfer stock to shelf -->
+                                            <td>
+                                                <a href="{% url 'product_app:transfer-stock' product.id %}" class="text-primary">
+                                                    <i class="ik ik-repeat f-16" title="Transfer To another shelf"></i>
                                                 </a>
                                             </td>
                                             <td>{{ product.barcode }}</td>

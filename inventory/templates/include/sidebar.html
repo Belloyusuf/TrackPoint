@@ -52,9 +52,9 @@
                 <div {% if request.resolver_match.view_name == 'product_app:adjust_stock' or request.resolver_match.view_name == 'product_app:adjust_stock_product' %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
                     <a href="{% url 'product_app:adjust_stock'%}"><i class="ik ik-link-2"></i><span>Stock Adjustment</span></a>
                 </div>
-                <div class="nav-item">
+                <!-- <div class="nav-item">
                     <a href="index.html"><i class="ik ik-repeat"></i><span>Stock Transfers</span></a>
-                </div>
+                </div> -->
                 <div class="nav-item">
                     <a href="index.html"><i class="ik ik-rotate-cw"></i><span>Reorder Management</span></a>
                 </div>

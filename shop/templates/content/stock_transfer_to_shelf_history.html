@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Stock Transfer History</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Source Shelf</th>
+                <th>Destination Shelf</th>
+                <th>Quantity Transferred</th>
+                <th>Transferred By</th>
+                <th>Transfer Date</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transfer in transfers %}
+                <tr>
+                    <td>{{ transfer.product.name }}</td>
+                    <td>{{ transfer.source_shelf.name }}</td>
+                    <td>{{ transfer.destination_shelf.name }}</td>
+                    <td>{{ transfer.quantity_transferred }}</td>
+                    <td>{{ transfer.transferred_by.username }}</td>
+                    <td>{{ transfer.transfer_date }}</td>
+                    <td>{{ transfer.reason }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

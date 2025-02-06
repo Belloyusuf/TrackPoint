@@ -37,5 +37,6 @@ urlpatterns = [
     path('adjustment-list/', views.list_product_for_adjustment, name='adjust_stock'),
     path('adjust-product/<int:product_id>/', views.adjust_stock, name='adjust_stock_product'),
     path('stock-adjustment-history/', views.stock_adjustment_history, name='adjust_history'),
+    path('transfer-stock/<int:product_id>/', views.transfer_stock, name='transfer-stock'),
 
 ]

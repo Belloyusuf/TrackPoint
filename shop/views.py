@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from . models import Product, Category, Shelf, StockHistory, StockAdjustment, StockAdjustmentHistory
+from . models import Product, Category, Shelf, StockHistory, StockAdjustment, StockAdjustmentHistory,\
+                     StockTransfer
 from django.views.generic import CreateView, ListView
 from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy
@@ -258,3 +259,62 @@ def stock_adjustment_history(request):
     adjustments = StockAdjustmentHistory.objects.all()
 
     return render(request, "content/stock_adjustment_history.html", {"adjustments": adjustments})
+
+
+
+# Stock Transfer to shelf
+def transfer_stock(request, product_id):
+    product = Product.objects.get(id=product_id)
+    shelves = Shelf.objects.all()  # Assume all shelves are available for transfer
+
+    if request.method == "POST":
+        source_shelf_id = request.POST.get("source_shelf")
+        destination_shelf_id = request.POST.get("destination_shelf")
+        quantity_transferred = int(request.POST.get("quantity_transferred"))
+        reason = request.POST.get("reason", "").strip()
+
+        # Get source and destination shelves
+        source_shelf = Shelf.objects.get(id=source_shelf_id)
+        destination_shelf = Shelf.objects.get(id=destination_shelf_id)
+
+        # Check if there is enough stock in the source shelf
+        if source_shelf.products.filter(id=product.id).exists():
+            source_product = source_shelf.products.get(id=product.id)
+
+            if source_product.quantity_in_stock < quantity_transferred:
+                sweetify.error(request, "Insufficient stock in source shelf.")
+                return redirect('product_app:transfer_stock', product_id=product.id)
+            
+            # Update stock in source and destination shelves
+            source_product.quantity_in_stock -= quantity_transferred
+            source_product.save()
+
+            # Update or add stock in the destination shelf
+            if destination_shelf.products.filter(id=product.id).exists():
+                destination_product = destination_shelf.products.get(id=product.id)
+                destination_product.quantity_in_stock += quantity_transferred
+                destination_product.save()
+            else:
+                # Create new product entry in destination shelf if not exists
+                destination_shelf.products.add(product, through_defaults={'quantity_in_stock': quantity_transferred})
+
+            # Create StockTransfer record
+            StockTransfer.objects.create(
+                product=product,
+                source_shelf=source_shelf,
+                destination_shelf=destination_shelf,
+                quantity_transferred=quantity_transferred,
+                reason=reason,
+                transferred_by=request.user
+            )
+
+            sweetify.success(request, f"Successfully transferred {quantity_transferred} of {product.name}.")
+            return redirect('product_app:transfer_stock', product_id=product.id)
+
+    return render(request, 'content/transfer_stock.html', {'product': product, 'shelves': shelves})
+
+
+# Stock to shelf transfer history
+def stock_transfer_history(request):
+    transfers = StockTransfer.objects.all().order_by('-transfer_date')
+    return render(request, 'content/stock_transfer_to_shelf_history.html', {'transfers': transfers})
