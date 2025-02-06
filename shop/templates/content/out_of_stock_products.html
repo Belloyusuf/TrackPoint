@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block title %}category{% endblock title %}
+{% load humanize %}
+{% block title %}out-of-stock{% endblock title %}
 
 {% block content %}
 
@@ -39,18 +40,13 @@
                 <!-- End of Item Icon Header -->
 
                 <div class="card">
-                    <div class="card-header row">
-                        <div class="col col-sm-3 ">
-                            <a href="{% url 'product_app:create-category' %}" class="btn btn-sm btn-primary"> <i class="ik ik-plus"></i> New Category</a>
-                        </div>
-                    </div>
-                    
                     <div class="card-body">
                         <table id="advanced_table" class="table">
                             <thead>
                                 <tr>
                                     <th>Product Name</th>
                                     <th>Stock Level</th>
+                                    <th>Unit of Measurement</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -59,6 +55,8 @@
                                     <tr>
                                         <td>{{ product.name }}</td>
                                         <td>{{ product.quantity_in_stock }}</td>
+                                        <td>{{ product.unit_of_measurement }}</td>
+                                        <td></td>
                                     </tr>
                                 {% endfor %}    
                             </tbody>

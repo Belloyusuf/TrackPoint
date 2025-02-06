@@ -37,7 +37,7 @@
                     <a href="{% url 'product_app:shelves' %}"><i class="ik ik-menu"></i><span>Shelves</span></a>
                 </div>
                 <!-- Stock Level -->
-                <div class="nav-item has-sub">
+                <div {% if request.resolver_match.view_name == 'product_app:low-stock-products' or request.resolver_match.view_name == 'product_app:out-of-stock-products' %} class="nav-item active has-sub" {% else %} class="nav-item has-sub"{% endif %} >
                     <a href="#"><i class="ik ik-box"></i><span>Stock Levels</span></a>
                     <div class="submenu-content">
                         <a href="{% url 'product_app:low-stock-products' %}" class="menu-item">Low Stock</a>
