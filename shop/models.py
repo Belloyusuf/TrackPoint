@@ -170,6 +170,20 @@ class Product(TimeStampedModel):
         )
 
 
+    # Stock Levels `Low stocks`
+    LOW_STOCK_THRESHOLD = 100  # Set a threshold for low stock
+
+    def get_stock_status(self):
+        """
+        Returns the stock status based on the quantity_in_stock.
+        """
+        if self.quantity_in_stock <= 0:
+            return "Out of Stock"
+        elif self.quantity_in_stock <= self.LOW_STOCK_THRESHOLD:
+            return "Low Stock"
+        else:
+            return "In Stock"
+
 
     # Return Total Balance of selling and cost price
     @classmethod
@@ -184,6 +198,8 @@ class Product(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+
 
 
 

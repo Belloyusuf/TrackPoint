@@ -16,7 +16,7 @@
                             <div class="page-header-title">
                                 <i class="ik ik-layers bg-blue"></i>
                                 <div class="d-inline">
-                                    <h5>Categories</h5>
+                                    <h5>Out of Stock</h5>
                                     <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
                                 </div>
                             </div>
@@ -49,20 +49,17 @@
                         <table id="advanced_table" class="table">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Products In Categories</th>
-                                    <th>Balance</th>
+                                    <th>Product Name</th>
+                                    <th>Stock Level</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for category in categories %}
-                                </tr>
-                                    <td>{{ category.name }}</td>
-                                    <td>{{ category.count_products_on_category }}</td>
-                                    <td>N {{ category.total_selling_price }}</td>
-                                    <td></td>
-                                </tr>
+                                {% for product in products %}
+                                    <tr>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.quantity_in_stock }}</td>
+                                    </tr>
                                 {% endfor %}    
                             </tbody>
                         </table>                      

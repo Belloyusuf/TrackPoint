@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block title %}category{% endblock title %}
+{% load humanize %}
+{% block title %}low-stock{% endblock title %}
 
 {% block content %}
 
@@ -16,7 +17,7 @@
                             <div class="page-header-title">
                                 <i class="ik ik-layers bg-blue"></i>
                                 <div class="d-inline">
-                                    <h5>Categories</h5>
+                                    <h5>Low Stock</h5>
                                     <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
                                 </div>
                             </div>
@@ -39,30 +40,26 @@
                 <!-- End of Item Icon Header -->
 
                 <div class="card">
-                    <div class="card-header row">
-                        <div class="col col-sm-3 ">
-                            <a href="{% url 'product_app:create-category' %}" class="btn btn-sm btn-primary"> <i class="ik ik-plus"></i> New Category</a>
-                        </div>
-                    </div>
-                    
                     <div class="card-body">
                         <table id="advanced_table" class="table">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Products In Categories</th>
-                                    <th>Balance</th>
+                                    <th>Product Name</th>
+                                    <th>Stock Level</th>
+                                    <th>Unit of Measurement</th>
+                                    <th>Revenue</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for category in categories %}
-                                </tr>
-                                    <td>{{ category.name }}</td>
-                                    <td>{{ category.count_products_on_category }}</td>
-                                    <td>N {{ category.total_selling_price }}</td>
-                                    <td></td>
-                                </tr>
+                                {% for product in products %}
+                                    <tr>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.quantity_in_stock }}</td>
+                                        <td>{{ product.unit_of_measurement }}</td>
+                                        <td>{{ total_revenue|intcomma }}</td>
+                                        <td></td>
+                                    </tr>
                                 {% endfor %}    
                             </tbody>
                         </table>                      

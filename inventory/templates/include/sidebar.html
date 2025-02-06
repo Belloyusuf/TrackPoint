@@ -40,8 +40,8 @@
                 <div class="nav-item has-sub">
                     <a href="#"><i class="ik ik-box"></i><span>Stock Levels</span></a>
                     <div class="submenu-content">
-                        <a href="pages/ui/alerts.html" class="menu-item">Low Stock</a>
-                        <a href="pages/ui/badges.html" class="menu-item">Out of Stock</a>
+                        <a href="{% url 'product_app:low-stock-products' %}" class="menu-item">Low Stock</a>
+                        <a href="{% url 'product_app:out-of-stock-products' %}" class="menu-item">Out of Stock</a>
 
                     </div>
                 </div>

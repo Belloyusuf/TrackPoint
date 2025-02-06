@@ -122,7 +122,8 @@ class ProductListView(ListView):
     template_name = 'content/product_list.html'
     context_object_name = 'products'
     
-    
+
+
 
 
 # Product Details
@@ -134,6 +135,35 @@ def product_detail(request, id, slug):
         'product': product,
         'cart_product_form': cart_product_form,
     })
+
+
+# Low Stock List
+def low_stock_products(request):
+    """
+    Display products with low stock but not out of stock.
+    """
+    LOW_STOCK_THRESHOLD = 100  # Define your threshold for low stock
+
+    low_stock_products = Product.objects.filter(
+        quantity_in_stock__lte=LOW_STOCK_THRESHOLD, quantity_in_stock__gt=0  # Excludes out-of-stock
+    )
+    total_revenue = low_stock_products.aggregate(total_revenue=Sum("selling_price"))["total_revenue"] or 0
+
+    return render(
+        request,
+        "content/low_stock_products.html",
+        {"products": low_stock_products, "total_revenue": total_revenue},
+    )
+
+
+
+# Out of Stock List
+def out_of_stock_products(request):
+    """
+    Display products that are out of stock.
+    """
+    out_of_stock_products = Product.objects.filter(quantity_in_stock__lte=0)
+    return render(request, 'content/out_of_stock_products.html', {'products': out_of_stock_products})
 
 
 

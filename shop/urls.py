@@ -28,4 +28,8 @@ urlpatterns = [
     path("shelfs-list/", views.ShelfListView.as_view(), name="shelves"),
     path("shelfs-create/", views.ShelfCreateView.as_view(), name="shelf-create"),
     path("shelfs-update/<int:pk>/", views.ShelfUpdateView.as_view(), name="shelf-update"),
+
+    # Stock Levels
+    path('low-stock/', views.low_stock_products, name='low-stock-products'),
+    path('out-of-stock/', views.out_of_stock_products, name='out-of-stock-products'),
 ]
