@@ -32,4 +32,9 @@ urlpatterns = [
     # Stock Levels
     path('low-stock/', views.low_stock_products, name='low-stock-products'),
     path('out-of-stock/', views.out_of_stock_products, name='out-of-stock-products'),
+    
+    # Stock Adjustment
+    path('adjustment-list/', views.list_product_for_adjustment, name='adjust_stock'),
+    path('adjust-product/<int:product_id>/', views.adjust_stock, name='adjust_stock_product'),
+
 ]

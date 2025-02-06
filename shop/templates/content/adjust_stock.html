@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Stock Adjustment{% endblock title %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <!-- Item Icon Header -->
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="ik ik-layers bg-blue"></i>
+                                <div class="d-inline">
+                                    <h5>Adjust Stock</h5>
+                                    <span>Adjust stock levels for your products here.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Adjust Stock</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Item Icon Header -->
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Stock Adjustment for "{{ product.name }}"</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <div class="form-group">
+                                <label for="adjustment_type">Adjustment Type:</label>
+                                <select name="adjustment_type" class="form-control" required>
+                                    <option value="increase">Increase</option>
+                                    <option value="decrease">Decrease</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" class="form-control" min="1" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reason">Reason:</label>
+                                <textarea name="reason" class="form-control" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Submit Adjustment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        {% include "include/footer.html" %}
+    </div>
+</div>
+
+{% endblock content %}

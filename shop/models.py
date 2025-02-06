@@ -216,7 +216,35 @@ class StockHistory(models.Model):
 
 
 
+# Stock Adjustment 
+class StockAdjustment(TimeStampedModel):
+    """
+    Logs stock adjustments (increase or decrease).
+    """
+    INCREASE = "increase"
+    DECREASE = "decrease"
+    
+    ADJUSTMENT_CHOICES = [
+        (INCREASE, "Increase"),
+        (DECREASE, "Decrease"),
+    ]
 
+    product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="adjustments")
+    adjustment_type = models.CharField(max_length=10, choices=ADJUSTMENT_CHOICES)
+    quantity = models.PositiveIntegerField()
+    reason = models.TextField()
+
+    def apply_adjustment(self):
+        """Adjusts the product stock and saves the record."""
+        if self.adjustment_type == self.INCREASE:
+            self.product.quantity_in_stock += self.quantity
+        elif self.adjustment_type == self.DECREASE:
+            self.product.quantity_in_stock = max(0, self.product.quantity_in_stock - self.quantity)  # Prevent negative stock
+        self.product.save()
+        self.save()  # Log the adjustment record
+
+    def __str__(self):
+        return f"{self.adjustment_type.capitalize()} {self.quantity} of {self.product.name}"
     
 
 

@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from . models import Product, Category, Shelf, StockHistory
+from django.shortcuts import render, get_object_or_404, redirect
+from . models import Product, Category, Shelf, StockHistory, StockAdjustment
 from django.views.generic import CreateView, ListView
 from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy
@@ -196,3 +196,45 @@ def product_stock_history(request, product_id):
         'product': product,
         'stock_history': stock_history
     })
+
+
+
+# List products for adjustment 
+def list_product_for_adjustment(request):
+    """
+    List available products before adjusting
+    """
+    products = Product.objects.all()
+    return render(request, "content/adjustment_list.html", {"products":products})
+
+
+
+# Stock Adjustment 
+def adjust_stock(request, product_id):
+    """
+    Handles stock adjustments for a product.
+    """
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == "POST":
+        adjustment_type = request.POST.get("adjustment_type")
+        quantity = int(request.POST.get("quantity", 0))
+        reason = request.POST.get("reason", "").strip()
+
+        if quantity <= 0:
+            sweetify.error(request, "Quantity must be greater than zero.")
+            return redirect("product_app:adjust_stock_product", product_id=product.id)
+
+        # Create adjustment record and apply changes
+        adjustment = StockAdjustment.objects.create(
+            product=product,
+            adjustment_type=adjustment_type,
+            quantity=quantity,
+            reason=reason
+        )
+        adjustment.apply_adjustment()
+
+        sweetify.success(request, f"Stock successfully adjusted: {adjustment}")
+        return redirect("product_app:adjust_stock_product", product_id=product.id)
+
+    return render(request, "content/adjust_stock.html", {"product": product})
