@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Stock Adjustment History{% endblock title %}
+
+{% block content %}
+<div class="wrapper">
+    {% include "include/navbar.html" %}
+    <div class="page-wrap">
+        {% include "include/sidebar.html" %}
+        <div class="main-content">
+            <div class="container-fluid">
+                <!-- Item Icon Header -->
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <i class="fas fa-archive text-blue"></i>
+                                <div class="d-inline">
+                                    <h5>Stock Adjustment History</h5>
+                                    <span>Below is the history of all stock adjustments made to your products.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}"><i class="ik ik-home"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'inventory_app:dashboard' %}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Products</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Item Icon Header -->
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Stock Adjustments</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Adjustment Type</th>
+                                    <th>Quantity</th>
+                                    <th>Reason</th>
+                                    <th>Adjusted By</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for adjustment in adjustments %}
+                                    <tr>
+                                        <td>{{ adjustment.product.name }}</td>
+                                        <td>{{ adjustment.get_adjustment_type_display }}</td>
+                                        <td>{{ adjustment.quantity }}</td>
+                                        <td>{{ adjustment.reason }}</td>
+                                        <td>
+                                            {% if adjustment.adjusted_by %}
+                                                {{ adjustment.adjusted_by.username }}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ adjustment.date }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include "include/footer.html" %}
+    </div>
+</div>
+{% endblock content %}

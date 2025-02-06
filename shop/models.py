@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.db.models import Sum
 from django.urls import reverse
-
+from django.conf import settings
 
 
 
@@ -249,3 +249,24 @@ class StockAdjustment(TimeStampedModel):
 
 
     
+# Adjustment History
+class StockAdjustmentHistory(models.Model):
+    ADJUSTMENT_TYPES = (
+        ('increase', 'Increase'),
+        ('decrease', 'Decrease'),
+    )
+
+    product = models.ForeignKey(Product, related_name="adjustment_history", on_delete=models.CASCADE)
+    adjustment_type = models.CharField(max_length=10, choices=ADJUSTMENT_TYPES)
+    quantity = models.PositiveIntegerField()
+    reason = models.TextField()
+    adjusted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)  # Assuming you're using Django's built-in User model
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.adjustment_type.capitalize()} {self.quantity} of {self.product.name} on {self.date}"
+
+    class Meta:
+        verbose_name = "Stock Adjustment History"
+        verbose_name_plural = "Stock Adjustment Histories"
+        ordering = ['-date']

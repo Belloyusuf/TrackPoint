@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from . models import Product, Category, Shelf, StockHistory, StockAdjustment
+from . models import Product, Category, Shelf, StockHistory, StockAdjustment, StockAdjustmentHistory
 from django.views.generic import CreateView, ListView
 from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy
@@ -234,7 +234,27 @@ def adjust_stock(request, product_id):
         )
         adjustment.apply_adjustment()
 
+        # Create a history record for the adjustment
+        StockAdjustmentHistory.objects.create(
+            product=product,
+            adjustment_type=adjustment_type,
+            quantity=quantity,
+            reason=reason,
+            adjusted_by=request.user if request.user.is_authenticated else None  # Allow None for anonymous users
+        )
+
         sweetify.success(request, f"Stock successfully adjusted: {adjustment}")
         return redirect("product_app:adjust_stock_product", product_id=product.id)
 
     return render(request, "content/adjust_stock.html", {"product": product})
+
+
+
+# Adjustment History
+def stock_adjustment_history(request):
+    """
+    Displays the history of stock adjustments.
+    """
+    adjustments = StockAdjustmentHistory.objects.all()
+
+    return render(request, "content/stock_adjustment_history.html", {"adjustments": adjustments})
