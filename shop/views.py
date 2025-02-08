@@ -262,6 +262,7 @@ def stock_adjustment_history(request):
 
 
 
+
 # Stock Transfer to shelf
 def transfer_stock(request, product_id):
     product = Product.objects.get(id=product_id)
@@ -305,13 +306,15 @@ def transfer_stock(request, product_id):
                 destination_shelf=destination_shelf,
                 quantity_transferred=quantity_transferred,
                 reason=reason,
-                transferred_by=request.user
+                # transferred_by=request.user
             )
 
             sweetify.success(request, f"Successfully transferred {quantity_transferred} of {product.name}.")
             return redirect('product_app:transfer_stock', product_id=product.id)
 
     return render(request, 'content/transfer_stock.html', {'product': product, 'shelves': shelves})
+
+
 
 
 # Stock to shelf transfer history

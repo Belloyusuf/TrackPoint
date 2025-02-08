@@ -1,6 +1,6 @@
-asgiref==3.7.0
-Brotli 
-certifi 
+asgiref @ file:///croot/asgiref_1724072470684/work
+Brotli @ file:///croot/brotli-split_1736182456865/work
+certifi @ file:///croot/certifi_1734473278428/work/certifi
 cffi==1.17.1
 charset-normalizer==3.4.1
 crispy-bootstrap4==2024.10
@@ -9,20 +9,20 @@ Django==5.1.5
 django-crispy-forms==2.0
 fonttools==4.55.8
 idna==3.10
-pillow 
+pillow @ file:///croot/pillow_1738010226202/work
 psycopg==3.2.4
 pycparser==2.22
 pydyf==0.11.0
 pyphen==0.17.2
-PySocks 
-requests 
+PySocks @ file:///work/perseverance-python-buildout/croot/pysocks_1698845478203/work
+requests @ file:///croot/requests_1730999120400/work
 setuptools==75.1.0
 sqlparse==0.5.3
 sweetify==2.3.1
 tinycss2==1.4.0
 tinyhtml5==2.0.0
 typing_extensions==4.12.2
-urllib3 
+urllib3 @ file:///croot/urllib3_1737133630106/work
 weasyprint==64.0
 webencodings==0.5.1
 wheel==0.44.0
