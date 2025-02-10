@@ -297,7 +297,7 @@ def transfer_stock(request, product_id):
                 destination_product.save()
             else:
                 # Create new product entry in destination shelf if not exists
-                destination_shelf.products.add(product, through_defaults={'quantity_in_stock': quantity_transferred})
+                destination_shelf.products.add(product)
 
             # Create StockTransfer record
             StockTransfer.objects.create(
@@ -310,7 +310,7 @@ def transfer_stock(request, product_id):
             )
 
             sweetify.success(request, f"Successfully transferred {quantity_transferred} of {product.name}.")
-            return redirect('product_app:transfer_stock', product_id=product.id)
+            return redirect('inventory_app:dashboard')
 
     return render(request, 'content/transfer_stock.html', {'product': product, 'shelves': shelves})
 
